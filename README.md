@@ -13,9 +13,9 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v16.zip`.
+1. Ekstrak `pinarak-app-v17.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v16**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v17**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
@@ -28,6 +28,13 @@
 1. Pastikan penerima DM (Cloudflare Worker) aktif, token `IG_TOKEN_akun_1` terisi di Script Properties, dan `id_ig` terisi di tab Akun.
 2. Uji dulu: kirim DM dari akun pelanggan biasa ke nadheera.luxury, lalu cek apakah muncul di Inbox.
 3. Hanya jika DM masuk, ubah Mode ke **KIRIM**. Nyalakan **Posting otomatis** terakhir, setelah satu uji posting berhasil.
+
+## Masuk dan layar pembuka
+- Masuk dengan kode akses cukup **sekali per perangkat**. Sesi berlaku setahun dan diperpanjang otomatis setiap kali aplikasi dipakai, jadi perangkat yang rutin dipakai tidak akan diminta masuk lagi. Setelah itu aplikasi langsung membuka layar pembuka lalu Beranda.
+- Untuk Apps Script: tempel ulang `PinaraK_Api.gs`, lalu Deploy > New version (supaya sesi bergulir aktif).
+- **Tautan masuk pribadi** (tanpa mengetik kode): buka alamat aplikasimu dengan tambahan `#k=KODEAKSES`, misalnya `https://nama.github.io/pinarak/#k=kodemu`. Aplikasi masuk sendiri dan kode langsung dihapus dari kolom alamat. Simpan sebagai bookmark di perangkatmu sendiri dan jangan dibagikan, karena tautan itu berisi kode akses. Kalau kamu mengganti kode akses, tautannya tidak berlaku lagi.
+- Layar pembuka: logo bergerak, salam sesuai jam, dan tagline. Tampil minimal 2 detik, ketuk layar untuk melewati, dan **tidak pernah lebih dari 5 detik** (bisa diubah lewat `SPLASH_MAKS` di `config.js`, 2 sampai 7). Kalau aplikasi dibuka lagi dalam 2 menit, layar pembuka dilewati.
+- Aplikasi sengaja tidak dibuat terbuka tanpa kode sama sekali: alamat situs dan alamat server bersifat publik, sedangkan isinya pesan pribadi pelanggan dan kemampuan membalas dari akun nadheera.luxury.
 
 ## Status konten
 - Status sekarang hanya empat: **Draf**, **Terjadwal**, **Tayang**, **Batal**. Konten lama berstatus Ide, Siapkan (Brief), Dikerjakan (Produksi), dan Periksa (Review) otomatis ditampilkan sebagai Draf. Status Siap ditampilkan sebagai Terjadwal. Data di Sheet tidak diubah.
