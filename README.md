@@ -13,12 +13,14 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v11.zip`.
+1. Ekstrak `pinarak-app-v12.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v11**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v12**.
 
 ## 4. Mencoba tanpa Meta
-- Menu **PinaraK > Isi data contoh (preview)** dan **Isi data insight nadheera.luxury** memberi data untuk dicoba.
+- Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
+- Untuk menghapusnya: **PinaraK > Hapus contoh Tahap 1**. Data insight asli tidak ikut terhapus.
+- Di aplikasi: form insight punya tombol **Isi contoh angka**, dan form agenda punya **Pakai contoh**.
 - Dengan Mode UJI: menyetujui balasan DM dan auto post hanya simulasi, tidak ada yang terkirim ke Instagram.
 - AI (opsional): isi Script Property `AI_API_KEY`. Tanpa itu, rencana, evaluasi, dan pembacaan agenda memakai cadangan otomatis.
 
@@ -29,6 +31,7 @@
 
 ## Catatan tampilan
 - Aplikasi hanya memakai akun Instagram **nadheera.luxury** (diambil dari tab Akun berdasarkan handle-nya). Baris akun lain di tab Akun tidak ditampilkan; hapus sendiri di Sheet bila tidak dipakai.
+- Konten cukup diisi caption, tanggal, dan jam. Judul diambil otomatis dari baris pertama caption. Platform, status, hashtag, URL media, dan posting otomatis ada di bagian **Pengaturan posting**.
 - Link postingan: terisi otomatis bila terbit lewat posting otomatis. Untuk posting manual, tempel linknya di form konten setelah tayang, atau biarkan kosong.
 
 ## Catatan
