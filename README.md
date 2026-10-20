@@ -8,14 +8,14 @@
 5. Berkas Index.html di proyek Apps Script tidak dipakai lagi dan boleh dihapus.
 
 ## 2. Google Sheet
-1. Muat ulang Sheet, lalu menu **PinaraK > Perbarui struktur Sheet** (menambah tab Agenda, Catatan, Rencana, Produk, Referensi, Laporan_Arsip dan kolom baru).
+1. Muat ulang Sheet, lalu menu **PinaraK > Perbarui struktur Sheet** (menambah tab Agenda, Catatan, Rencana, Produk, Referensi, Laporan_Arsip, kolom baru, dan pilihan Mode UJI).
 2. Menu **PinaraK > Rapikan tampilan Sheet** (warna dan tata letak; isi data tidak berubah).
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v10.zip`.
+1. Ekstrak `pinarak-app-v11.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v10**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v11**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi data contoh (preview)** dan **Isi data insight nadheera.luxury** memberi data untuk dicoba.
@@ -26,6 +26,10 @@
 1. Pastikan penerima DM (Cloudflare Worker) aktif, token `IG_TOKEN_akun_1` terisi di Script Properties, dan `id_ig` terisi di tab Akun.
 2. Uji dulu: kirim DM dari akun pelanggan biasa ke nadheera.luxury, lalu cek apakah muncul di Inbox.
 3. Hanya jika DM masuk, ubah Mode ke **KIRIM**. Nyalakan **Posting otomatis** terakhir, setelah satu uji posting berhasil.
+
+## Catatan tampilan
+- Aplikasi hanya memakai akun Instagram **nadheera.luxury** (diambil dari tab Akun berdasarkan handle-nya). Baris akun lain di tab Akun tidak ditampilkan; hapus sendiri di Sheet bila tidak dipakai.
+- Link postingan: terisi otomatis bila terbit lewat posting otomatis. Untuk posting manual, tempel linknya di form konten setelah tayang, atau biarkan kosong.
 
 ## Catatan
 - Pengujian dilakukan dengan tiruan Google Sheet dan browser simulasi. Belum diuji di Apps Script, Meta, dan HP aslimu.
