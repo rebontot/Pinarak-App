@@ -38,10 +38,11 @@
  <p id="ltg" class="b" style="color:var(--acd);cursor:pointer;margin:10px 0 0;min-height:24px" role="button" tabindex="0">Tampilkan kode</p>
  <p id="lerr" style="color:var(--ert);min-height:22px;margin:6px 0" role="alert"></p>
  <button id="lgo" class="btn p w" type="button">Masuk</button>
- <p class="sm mut" style="margin-top:14px">PinaraK web v14</p>
+ <p class="sm mut" style="margin-top:14px">PinaraK web v15</p>
 </div></div>
 <script src="config.js"></script>
 <script>/*alamat-bawaan*/var c=window.PINARAK_CONFIG=window.PINARAK_CONFIG||{};if(String(c.API||'').indexOf('https://script.google.com/')!==0)c.API='https://script.google.com/macros/s/AKfycbxMFoaGQGowvAyEzndkbGzvRsCXRJsS3b9tyHGwnCeIa2KmO95YnwBV9ER81F6N83JjVQ/exec';</script>
+<script>(function(){try{var t=localStorage.getItem('pinarak_tok'),a=(window.PINARAK_CONFIG||{}).API;if(!t||!a)return;var E=window.__early={},g=function(f,r){var k=f+JSON.stringify(r);E[k]=fetch(a,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fn:f,args:r,t:t})}).then(function(x){if(!x.ok)throw'Server tidak merespons ('+x.status+')';return x.json()});E[k].catch(function(){})};g('apiStart',[true]);g('apiInbox',[])}catch(e){}})();</script>
 <script>
 'use strict';
 var CFG = window.PINARAK_CONFIG || {};
@@ -80,7 +81,7 @@ function tok() { try { return localStorage.getItem(TK) || ''; } catch (e) { retu
 function setTok(v) { try { if (v) localStorage.setItem(TK, v); else { localStorage.removeItem(TK); localStorage.removeItem(CK); } } catch (e) { } }
 function cacheLoad() { try { var c = JSON.parse(localStorage.getItem(CK) || 'null'); return c && c.b && Date.now() - c.t < 3 * 864e5 ? c : null; } catch (e) { return null; } }
 function cacheSave() { try { localStorage.setItem(CK, JSON.stringify({ t: Date.now(), b: S.b, home: S.home, kn: S.kn })); } catch (e) { } }
-function post(body) { return fetch(CFG.API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }).then(function (r) { if (!r.ok) throw 'Server tidak merespons (' + r.status + ')'; return r.json(); }); }
+function post(body) { var k = body.fn + JSON.stringify(body.args || []), E = window.__early; if (E && E[k]) { var pr = E[k]; E[k] = null; return pr; } return fetch(CFG.API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }).then(function (r) { if (!r.ok) throw 'Server tidak merespons (' + r.status + ')'; return r.json(); }); }
 function call(fn) {
 var a = [].slice.call(arguments, 1);
 return post({ fn: fn, args: a, t: tok() }).then(function (j) {
@@ -141,15 +142,17 @@ $('#sheet').classList.add('on'); document.body.style.overflow = 'hidden'; $('#pa
 function sb(html) { var s = $('#sb'); if (s) s.innerHTML = html; }
 function tutup() { $('#sheet').classList.remove('on'); document.body.style.overflow = ''; if (S.dm && S.dm.timer) { clearInterval(S.dm.timer); } S.dm = null; S.sh = null; }
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && $('#sheet').classList.contains('on')) tutup(); });
-function applyStart(r) { S.b = r.boot; S.th = r.inbox; S.kn = r.konten; S.home = r.beranda; cacheSave(); }
+function applyStart(r) { S.b = r.boot; if (Array.isArray(r.inbox)) S.th = r.inbox; else if (S.thPending) { S.th = S.thPending; S.thPending = null; } S.kn = r.konten; S.home = r.beranda; cacheSave(); }
+function applyInbox(l) { if (!S.b) { S.thPending = l; return; } S.th = l; if (S.home) { var w = l.filter(isW); S.home.dm = { tunggu: w.length, draf: w.filter(function (x) { return x.status === 'Draf siap'; }).length }; cacheSave(); } shell(); if ((S.tab === 'inbox' || S.tab === 'beranda') && !S.sheetBusy()) render(); }
 function boot() {
 if (!CFG.API) { $('#view').innerHTML = '<div class="card empty"><p class="b">Alamat server belum diisi</p><p>Isi config.js dengan alamat web app Apps Script (berakhiran /exec).</p></div>'; return; }
 if (!tok()) { showLogin(); return; }
 var c = cacheLoad(); if (c) { S.b = c.b; S.home = c.home; S.kn = c.kn; shell(); render(); }
 S.err = '';
-call('apiStart').then(function (r) {
+var pI = call('apiInbox'); pI.catch(function () { });
+call('apiStart', true).then(function (r) {
 if (!r.beranda) throw 'Server belum diperbarui. Tempel PinaraK_Fitur.gs, lalu Deploy > New version.';
-applyStart(r); S.offline = false; shell(); render(); load(S.tab); setTimeout(prefetchRest, 200);
+applyStart(r); S.offline = false; shell(); render(); load(S.tab); pI.then(applyInbox).catch(function () { }); setTimeout(prefetchRest, 200);
 }).catch(function (e) { if (!tok()) return; if (S.b) { err(e); return; } S.err = typeof e === 'string' ? e : 'Terjadi galat'; render(); });
 }
 function refreshInbox(quiet) {
@@ -466,7 +469,7 @@ if (S.sh !== 'pengaturan') return; var b = S.b, a = akunUtama();
 var modes = [['BAYANGAN', 'Bayangan: hanya kategori'], ['DRAF', 'Draf: kategori dan draf balasan'], ['KIRIM', 'Kirim: balasan terkirim ke Instagram'], ['UJI', 'Uji: simulasi, tidak ada yang terkirim']];
 var akun = a ? '<div class="rw" style="border-top:0"><span class="av">' + esc(String(a.handle || a.nama || '?').charAt(0).toUpperCase()) + '</span><div class="g">' + t2('@' + String(a.handle || a.nama).replace('@', ''), 'Instagram') + '</div>' + (a.tokenDays == null ? '' : chip(a.tokenDays < 0 ? 'Token habis' : 'Token ' + a.tokenDays + ' hari', a.tokenDays <= 7 ? 'wn' : 'ok')) + '</div><button class="btn w" style="margin-top:8px" data-a="tokenBaru">Perbarui token</button>' : '<div class="empty">Akun Instagram belum diisi di tab Akun pada Sheet.</div>';
 sb('<h2 style="margin:0 0 4px">Akun Instagram</h2>' + akun + '<div style="margin-top:8px">' + sel('Mode kerja', 'stMode', modes, b.mode).replace('<select ', '<select data-ch="setMode" ') + '</div><div style="display:flex;align-items:center;gap:12px;margin-top:16px;min-height:48px"><div class="g" style="flex:1"><div class="b">Posting otomatis</div><div class="sm mut">Saklar utama. Tiap konten tetap perlu disetujui.</div></div><button class="sw' + (b.autoPost ? ' on' : '') + '" data-a="setAuto" role="switch" aria-checked="' + !!b.autoPost + '" aria-label="Posting otomatis"></button></div>' +
-'<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v14</p>');
+'<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v15</p>');
 }
 document.addEventListener('change', function (e) { var t = e.target; if (t.dataset && t.dataset.ch && A[t.dataset.ch]) A[t.dataset.ch](t); });
 A.setMode = function (t) { call('apiSetSetting', 'Mode', t.value).then(function (r) { if (r.ok) { S.b.mode = r.value; banner(); toast('Mode: ' + r.value); cacheSave(); } else { toast(r.error); renderSet(); } }).catch(function (e) { err(e); renderSet(); }); };

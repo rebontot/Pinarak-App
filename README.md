@@ -13,9 +13,9 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v14.zip`.
+1. Ekstrak `pinarak-app-v15.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v14**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v15**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
@@ -28,6 +28,10 @@
 1. Pastikan penerima DM (Cloudflare Worker) aktif, token `IG_TOKEN_akun_1` terisi di Script Properties, dan `id_ig` terisi di tab Akun.
 2. Uji dulu: kirim DM dari akun pelanggan biasa ke nadheera.luxury, lalu cek apakah muncul di Inbox.
 3. Hanya jika DM masuk, ubah Mode ke **KIRIM**. Nyalakan **Posting otomatis** terakhir, setelah satu uji posting berhasil.
+
+## Kecepatan buka
+- Server: tempel ulang `PinaraK_Api.gs` dan `PinaraK_Fitur.gs`, lalu Deploy > New version. Pembukaan app sekarang memuat Beranda dan Inbox lewat dua permintaan yang berjalan bersamaan.
+- Aplikasi: setelah v15 terpasang, cangkang app dibuka langsung dari simpanan HP dan disegarkan di latar. Versi baru tetap diumumkan lewat banner.
 
 ## Banner pembaruan
 - Setiap kali kamu mengunggah versi baru ke GitHub, aplikasi yang sudah terpasang di HP menampilkan banner **Versi baru tersedia** di atas Beranda. Ketuk **Perbarui** dan aplikasi memuat ulang dengan versi terbaru. Kamu tidak perlu menghapus atau memasang ulang ikon di layar utama.
