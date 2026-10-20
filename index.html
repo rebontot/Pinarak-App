@@ -38,7 +38,7 @@
  <p id="ltg" class="b" style="color:var(--acd);cursor:pointer;margin:10px 0 0;min-height:24px" role="button" tabindex="0">Tampilkan kode</p>
  <p id="lerr" style="color:var(--ert);min-height:22px;margin:6px 0" role="alert"></p>
  <button id="lgo" class="btn p w" type="button">Masuk</button>
- <p class="sm mut" style="margin-top:14px">PinaraK web v15</p>
+ <p class="sm mut" style="margin-top:14px">PinaraK web v16</p>
 </div></div>
 <script src="config.js"></script>
 <script>/*alamat-bawaan*/var c=window.PINARAK_CONFIG=window.PINARAK_CONFIG||{};if(String(c.API||'').indexOf('https://script.google.com/')!==0)c.API='https://script.google.com/macros/s/AKfycbxMFoaGQGowvAyEzndkbGzvRsCXRJsS3b9tyHGwnCeIa2KmO95YnwBV9ER81F6N83JjVQ/exec';</script>
@@ -72,9 +72,10 @@ chev: '<path d="M9 5l7 7-7 7"/>', gear: '<circle cx="12" cy="12" r="3"/><path d=
 clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', arrow: '<path d="M7 17L17 7M8 7h9v9"/>', search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>', plus: '<path d="M12 5v14M5 12h14"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>', back: '<path d="M15 5l-7 7 7 7"/>', dots: '<path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3.6"/>', check: '<path d="M5 12l5 5L20 7"/>', book: '<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>' };
 return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (P[n] || '') + '</svg>';
 }
-var STAT = { Ide: ['Ide', 'nu'], Brief: ['Siapkan', 'nu'], Produksi: ['Dikerjakan', 'nu'], Review: ['Periksa', 'nu'], Siap: ['Siap', 'ok'], Terjadwal: ['Terjadwal', 'ok'], Tayang: ['Sudah tayang', 'ok'], Batal: ['Batal', 'nu'] };
+var STAT = { Draf: ['Draf', 'nu'], Terjadwal: ['Terjadwal', 'ok'], Tayang: ['Tayang', 'ok'], Batal: ['Batal', 'nu'] };
+function ns(s) { return s === 'Siap' ? 'Terjadwal' : (!s || ['Ide', 'Brief', 'Produksi', 'Review'].indexOf(s) >= 0) ? 'Draf' : s; }
 function chip(t, k) { return '<span class="chip' + (k ? ' ' + k : '') + '">' + esc(t) + '</span>'; }
-function sChip(s, sp) { if (sp === 'Gagal') return chip('Gagal terbit', 'er'); var x = STAT[s] || [s || '-', 'nu']; return chip(x[0], x[1]); }
+function sChip(s, sp) { if (sp === 'Gagal') return chip('Gagal terbit', 'er'); var x = STAT[ns(s)] || [s || '-', 'nu']; return chip(x[0], x[1]); }
 function skel(n) { var o = ''; for (var i = 0; i < n; i++) o += '<div class="sk" style="height:' + (i ? 88 : 120) + 'px"></div>'; return o + '<p class="sm mut" style="text-align:center;margin:0">Memuat…</p>'; }
 var TK = 'pinarak_tok', CK = 'pinarak_cache2';
 function tok() { try { return localStorage.getItem(TK) || ''; } catch (e) { return ''; } }
@@ -328,11 +329,11 @@ A.kon = function (el) { S.kNew = el.dataset.d || ''; kontenSheet(el.dataset.id);
 function kontenSheet(id) {
 var k = id ? (S.kn || []).filter(function (x) { return x.id === id; })[0] : null; if (id && !k) return;
 var ig = (S.b.akun || []).filter(function (a) { return a.platform !== 'TikTok'; });
-k = k || { id: '', judul: '', caption: '', hashtag: '', platform: 'Instagram Reels', akun: (akunUtama() || {}).id || '', status: 'Brief', media: '', link: '', auto: false, setuju: false, sp: '', galat: '', jam: '19:00' };
-var tgl = kDate(k) || S.kNew || addD(today(), 1), jam = k.jam || '19:00', st = Object.keys(STAT); if (k.status && st.indexOf(k.status) < 0) st.push(k.status);
+k = k || { id: '', judul: '', caption: '', hashtag: '', platform: 'Instagram Reels', akun: (akunUtama() || {}).id || '', status: 'Draf', media: '', link: '', auto: false, setuju: false, sp: '', galat: '', jam: '19:00' };
+var tgl = kDate(k) || S.kNew || addD(today(), 1), jam = k.jam || '19:00', st = Object.keys(STAT);
 var link = id ? fld('Link postingan', 'kLink', k.link, 'url', 'inputmode="url"') + '<p class="sm mut" style="margin:4px 0 0">' + (k.auto ? 'Terisi otomatis saat posting otomatis terbit.' : 'Posting manual: tempel link setelah tayang. Boleh dikosongkan.') + '</p>' : '';
 sheet(id ? 'Ubah konten' : 'Konten baru', area('Caption', 'kCap', k.caption || k.judul || '', 7) + '<div class="fi">' + fld('Tanggal', 'kTgl', tgl, 'date') + fld('Jam', 'kJam', jam, 'time') + '</div>' +
-'<details class="dtl"><summary>Pengaturan posting</summary>' + sel('Platform', 'kPlat', platOpts(k.platform), k.platform) + sel('Status', 'kStat', st.map(function (x) { return [x, (STAT[x] || [x])[0]]; }), k.status) + fld('Hashtag', 'kHash', k.hashtag) + fld('URL media publik (untuk posting otomatis)', 'kMedia', k.media, 'url', 'inputmode="url"') + link +
+'<details class="dtl"><summary>Pengaturan posting</summary>' + sel('Platform', 'kPlat', platOpts(k.platform), k.platform) + sel('Status', 'kStat', st.map(function (x) { return [x, (STAT[x] || [x])[0]]; }), ns(k.status)) + fld('Hashtag', 'kHash', k.hashtag) + fld('URL media publik (untuk posting otomatis)', 'kMedia', k.media, 'url', 'inputmode="url"') + link +
 '<label style="display:flex;align-items:center;gap:10px;margin:14px 0;min-height:44px"><input type="checkbox" id="kAuto"' + (k.auto ? ' checked' : '') + ' style="width:22px;height:22px"> Posting otomatis ke Instagram saat jadwal tiba</label></details><input type="hidden" id="kAkun" value="' + esc(k.akun || (akunUtama() || {}).id || '') + '">' +
 (k.sp ? '<p class="sm mut">Status publikasi: <b>' + esc(k.sp) + '</b>' + (k.galat ? '. ' + esc(k.galat) : '') + '</p>' : '') + '<div id="kMsg" class="sm" style="color:var(--ert);margin-top:8px" role="alert"></div>' +
 '<div style="display:flex;flex-direction:column;gap:8px;margin-top:14px"><button class="btn p w" data-a="kSimpan" data-id="' + esc(id || '') + '">Simpan</button>' + (id ? '<button class="btn w" data-a="kSetuju" data-id="' + esc(id) + '">Setujui posting otomatis</button><button class="btn w" data-a="kTayang" data-id="' + esc(id) + '">Tandai sudah tayang</button>' : '') + '</div>');
@@ -469,7 +470,7 @@ if (S.sh !== 'pengaturan') return; var b = S.b, a = akunUtama();
 var modes = [['BAYANGAN', 'Bayangan: hanya kategori'], ['DRAF', 'Draf: kategori dan draf balasan'], ['KIRIM', 'Kirim: balasan terkirim ke Instagram'], ['UJI', 'Uji: simulasi, tidak ada yang terkirim']];
 var akun = a ? '<div class="rw" style="border-top:0"><span class="av">' + esc(String(a.handle || a.nama || '?').charAt(0).toUpperCase()) + '</span><div class="g">' + t2('@' + String(a.handle || a.nama).replace('@', ''), 'Instagram') + '</div>' + (a.tokenDays == null ? '' : chip(a.tokenDays < 0 ? 'Token habis' : 'Token ' + a.tokenDays + ' hari', a.tokenDays <= 7 ? 'wn' : 'ok')) + '</div><button class="btn w" style="margin-top:8px" data-a="tokenBaru">Perbarui token</button>' : '<div class="empty">Akun Instagram belum diisi di tab Akun pada Sheet.</div>';
 sb('<h2 style="margin:0 0 4px">Akun Instagram</h2>' + akun + '<div style="margin-top:8px">' + sel('Mode kerja', 'stMode', modes, b.mode).replace('<select ', '<select data-ch="setMode" ') + '</div><div style="display:flex;align-items:center;gap:12px;margin-top:16px;min-height:48px"><div class="g" style="flex:1"><div class="b">Posting otomatis</div><div class="sm mut">Saklar utama. Tiap konten tetap perlu disetujui.</div></div><button class="sw' + (b.autoPost ? ' on' : '') + '" data-a="setAuto" role="switch" aria-checked="' + !!b.autoPost + '" aria-label="Posting otomatis"></button></div>' +
-'<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v15</p>');
+'<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v16</p>');
 }
 document.addEventListener('change', function (e) { var t = e.target; if (t.dataset && t.dataset.ch && A[t.dataset.ch]) A[t.dataset.ch](t); });
 A.setMode = function (t) { call('apiSetSetting', 'Mode', t.value).then(function (r) { if (r.ok) { S.b.mode = r.value; banner(); toast('Mode: ' + r.value); cacheSave(); } else { toast(r.error); renderSet(); } }).catch(function (e) { err(e); renderSet(); }); };
@@ -535,7 +536,7 @@ S.lap = { minggu: m || addD(monOf(today()), -7), sosmed: { ada: false, label: ''
 }
 var LV = '#8B6FE0';
 function hDays() { var o = [], t = today(); for (var i = 0; i < 7; i++) o.push(addD(t, i)); return o; }
-function stTxt(k) { return k.sp === 'Gagal' ? 'Gagal terbit' : (STAT[k.status] || [k.status || '-'])[0]; }
+function stTxt(k) { return k.sp === 'Gagal' ? 'Gagal terbit' : (STAT[ns(k.status)] || [k.status || '-'])[0]; }
 function hItems(d) {
 var o = [];
 (S.kn || []).forEach(function (k) { if (kDate(k) === d && k.status !== 'Batal') o.push({ jam: k.jam || '', judul: kt(k), sub: stTxt(k) + (k.pilar ? ' · ' + k.pilar : ''), chp: pf(k.platform) || 'Konten', a: 'kon', id: k.id }); });
@@ -564,8 +565,8 @@ var h = S.home; if (!h) return skel(3);
 var PI = { dm: 'inbox', konten: 'cal', rencana: 'cal', laporan: 'chart', catatan: 'book', token: 'gear' };
 var t0 = today(); if (!S.hDay || S.hDay < t0) S.hDay = t0;
 var dmT = (h.dm && h.dm.tunggu) || 0, dmD = (h.dm && h.dm.draf) || 0, today_ = hItems(t0), nk = today_.filter(function (x) { return x.a === 'kon'; }).length, na = today_.length - nk, ni = nextIdx(today_, t0), nx = ni >= 0 ? today_[ni] : null;
-var bl = t0.slice(0, 7), mk = (S.kn || []).filter(function (k) { return kDate(k).slice(0, 7) === bl && k.status !== 'Batal'; }), cn = function (l) { return mk.filter(function (k) { return l.indexOf(k.status) >= 0; }).length; };
-var tay = cn(['Tayang']), trj = cn(['Terjadwal', 'Siap']), prs = cn(['Brief', 'Produksi', 'Review']), ide = cn(['Ide']);
+var bl = t0.slice(0, 7), mk = (S.kn || []).filter(function (k) { return kDate(k).slice(0, 7) === bl && k.status !== 'Batal'; }), cn = function (l) { return mk.filter(function (k) { return l.indexOf(ns(k.status)) >= 0; }).length; };
+var tay = cn(['Tayang']), trj = cn(['Terjadwal']), drf = cn(['Draf']);
 var perlu = h.perlu.length ? h.perlu.map(function (p) { return rwb('data-a="perlu" data-k="' + esc(p.aksi) + '" data-m="' + esc(p.minggu || '') + '"', '<span class="ib">' + ic(PI[p.tipe] || 'check') + '</span>', '<span class="b">' + esc(p.teks) + '</span>', '<span class="mut">' + ic('chev') + '</span>'); }).join('') : '<div class="empty">Semua beres untuk saat ini.</div>';
 var ags = (h.agenda || []).map(function (a) { var w = a.sisa < 0 ? chip('Berlangsung', 'wn') : a.sisa === 0 ? chip('Hari ini', 'wn') : chip('H-' + a.sisa); return rwb('data-a="agenda" data-id="' + esc(a.id) + '"', dtTile(a.mulai), t2(a.judul, [a.jenis, a.jam, a.lokasi].filter(String).join(' · ')), w); }).join('') || '<div class="empty">Belum ada agenda 14 hari ke depan.</div>';
 var P = h.performa, perf;
@@ -581,7 +582,7 @@ var banner = '<section class="gb"><h2>' + sapa + '!</h2><p>' + esc(bt) + '</p><i
 var hero = '<section class="hero2">' + rings + '<h2 class="hl">' + (dmT ? nf(dmT) + ' DM menunggu' : 'Semua DM sudah dibalas') + '</h2><p class="hs2">' + (dmD ? dmD + ' draf balasan siap disetujui' : dmT ? 'Belum ada draf, balas manual' : 'Tidak ada antrean DM') + '</p>' +
 '<div class="nx"><span class="sm">Berikutnya · ' + (nx ? esc(nx.jam || 'Sepanjang hari') : 'tidak ada') + '</span><b class="ell">' + (nx ? esc(nx.judul) : 'Tidak ada jadwal lagi hari ini') + '</b><span class="sm ell" style="display:block">' + (nx ? esc(nx.sub) : 'Santai dulu, atau siapkan konten berikutnya') + '</span></div>' +
 '<div class="hd2"><b>Ringkasan ' + BLNF[Number(t0.slice(5, 7)) - 1] + '</b><span class="pc">' + tay + '/' + mk.length + ' tayang</span></div>' +
-'<div class="st4"><div><b>' + tay + '</b><span>Tayang</span></div><div><b>' + trj + '</b><span>Terjadwal</span></div><div><b>' + prs + '</b><span>Proses</span></div><div><b>' + ide + '</b><span>Ide</span></div></div>' +
+'<div class="st4"><div><b>' + tay + '</b><span>Tayang</span></div><div><b>' + trj + '</b><span>Terjadwal</span></div><div><b>' + drf + '</b><span>Draf</span></div><div><b>' + mk.length + '</b><span>Total</span></div></div>' +
 '<button class="hbtn" data-a="bukaJadwal"><span class="ar">' + ic('chev') + '</span>Buka jadwal hari ini</button></section>';
 return '<header class="gh"><img class="avt" src="logo-320.webp" alt="PinaraK" width="52" height="52"><div class="g"><div class="sm mut">' + tglL(t0) + '</div><h1 class="ell">Monggo pinarak, Pina</h1></div><button class="x gl dsk" data-a="tambah" aria-label="Tambah">' + ic('plus') + '</button><button class="x gl" data-a="pengaturan" aria-label="Pengaturan">' + ic('gear') + '</button></header>' +
 '<div class="cols"><div class="wrap">' + banner + hero + dpStrip(hDays(), S.hDay, 'hari') + '<div id="hsch">' + hSched() + '</div></div>' +
@@ -600,7 +601,7 @@ function dRes() {
 var q = (S.q || '').trim(), fp = S.fp || '', fs = S.fs || '', ql = q.toLowerCase();
 var l = (S.kn || []).filter(function (k) {
 if (fp && pf(k.platform) !== fp) return false;
-if (fs && (fs === 'Terjadwal' ? ['Terjadwal', 'Siap'].indexOf(k.status) < 0 : k.status !== fs)) return false;
+if (fs && ns(k.status) !== fs) return false;
 return !ql || [k.caption, k.judul, k.produk, k.pilar, k.platform, k.hashtag].join(' ').toLowerCase().indexOf(ql) >= 0;
 }).sort(function (a, b) { var x = kDate(a) + (a.jam || ''), y = kDate(b) + (b.jam || ''); return x < y ? 1 : -1; });
 var tot = l.length; l = l.slice(0, 60); var g = {}, ord = [];
@@ -614,7 +615,7 @@ if (!S.kn) return skel(3);
 var ch = function (act, cur, list) { return list.map(function (x) { return '<button class="fl' + (cur === x[0] ? ' on' : '') + '" data-a="' + act + '" data-v="' + x[0] + '">' + x[1] + '</button>'; }).join(''); };
 return '<div class="sr"><span class="si">' + ic('search') + '</span><input id="dq" class="inp sq" type="search" placeholder="Cari caption, produk, pilar" value="' + esc(S.q || '') + '" aria-label="Cari konten" autocomplete="off"></div>' +
 '<div class="fr" style="margin-top:10px"><span class="sm">Platform</span><div class="chips">' + ch('fpf', S.fp || '', [['', 'Semua'], ['Reels', 'Reels'], ['Feed', 'Feed'], ['Story', 'Story']]) + '</div></div>' +
-'<div class="fr" style="margin-top:6px"><span class="sm">Status</span><div class="chips">' + ch('fst', S.fs || '', [['', 'Semua'], ['Ide', 'Ide'], ['Terjadwal', 'Terjadwal'], ['Tayang', 'Tayang']]) + '</div></div><div id="dres">' + dRes() + '</div>';
+'<div class="fr" style="margin-top:6px"><span class="sm">Status</span><div class="chips">' + ch('fst', S.fs || '', [['', 'Semua'], ['Draf', 'Draf'], ['Terjadwal', 'Terjadwal'], ['Tayang', 'Tayang']]) + '</div></div><div id="dres">' + dRes() + '</div>';
 }
 A.fpf = function (el) { S.fp = el.dataset.v; render(); };
 A.fst = function (el) { S.fs = el.dataset.v; render(); };
