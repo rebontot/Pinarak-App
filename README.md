@@ -13,9 +13,9 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v21.zip`.
+1. Ekstrak `pinarak-app-v23.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v21**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v23**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
@@ -36,7 +36,7 @@ Cara mengaktifkan (sekali saja):
 1. Daftar gratis di cloudinary.com (tanpa kartu kredit). Di Dashboard catat **Cloud name**, **API Key**, dan **API Secret**.
 2. Di Apps Script buka Project Settings > Script Properties, lalu tambahkan tiga isian: `CLOUDINARY_CLOUD` (Cloud name), `CLOUDINARY_KEY` (API Key), `CLOUDINARY_SECRET` (API Secret).
 3. Tempel ulang `PinaraK_Api.gs`, lalu Deploy > New version.
-4. Unggah isi `pinarak-app-v21.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
+4. Unggah isi `pinarak-app-v23.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
 
 Catatan:
 - API Secret hanya tersimpan di Apps Script. Aplikasi hanya menerima tanda tangan sekali pakai, dan hanya perangkat yang sudah masuk yang bisa memintanya.
@@ -96,3 +96,17 @@ Media lama dibersihkan lewat **PinaraK > Bersihkan media Drive lebih dari 60 har
 - Isi keduanya sekaligus, atau kosongkan keduanya. Konten tanpa jadwal tersimpan sebagai draf dan muncul di tab **Daftar**, kelompok **Tanpa jadwal**.
 - **Terbitkan otomatis** wajib punya tanggal dan jam.
 - Untuk konten yang sudah punya jadwal, jam di formulir selalu mengikuti jadwal yang tersimpan.
+
+## Progres posting jelas dan konten tayang dikunci (v22)
+- Chip di kartu konten: **Antre** (menunggu jam), **Memproses**, **Tayang**, **Gagal terbit**, dan **Simulasi** (Mode Uji).
+- Konten yang sudah tayang **dikunci**: caption, jadwal, media, dan pengaturan tidak bisa diubah. Hanya link postingan yang boleh diisi. Konten yang cuma ditandai tayang manual punya tombol "Salah tandai? Kembalikan ke Terjadwal".
+- Mode Uji tidak lagi mengubah status jadi Tayang. Statusnya Simulasi, jadi tidak membingungkan.
+- Perlu: tempel `PinaraK_Code.gs` dan `PinaraK_Api.gs` terbaru, lalu Deploy New version.
+
+## Form posting yang sederhana (v23)
+Satu layar, empat langkah: **1. Foto atau video**, **2. Caption** (hashtag ditulis di sini), **3. Jenis posting** (Reels, Feed, Story; terisi otomatis dari media), **4. Kapan terbit?** (Jadwalkan atau Sekarang). Dua tombol: **Jadwalkan posting** (berubah menjadi **Posting sekarang** bila memilih Sekarang) dan **Simpan sebagai draf**.
+- Tidak ada lagi kotak centang, dropdown status, kolom hashtag, atau Pengaturan posting. Link media sendiri dilipat di bawah tombol unggah.
+- Satu kalimat di atas tombol menjelaskan kapan dan di akun mana posting akan terbit.
+- Konten yang dijadwalkan punya kotak hijau; yang gagal punya kotak merah dengan alasannya dan tombol **Coba terbitkan lagi**; Mode Uji punya catatan kuning.
+- Kalau pemeriksaan gagal saat menjadwalkan, konten disimpan sebagai **draf** dan alasannya ditampilkan, jadi tidak pernah setengah terjadwal.
+- Perlu: tempel `PinaraK_Api.gs` terbaru, lalu Deploy New version.
