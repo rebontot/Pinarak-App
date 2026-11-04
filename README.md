@@ -13,9 +13,9 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v17.zip`.
+1. Ekstrak `pinarak-app-v18.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v17**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v18**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
@@ -28,6 +28,20 @@
 1. Pastikan penerima DM (Cloudflare Worker) aktif, token `IG_TOKEN_akun_1` terisi di Script Properties, dan `id_ig` terisi di tab Akun.
 2. Uji dulu: kirim DM dari akun pelanggan biasa ke nadheera.luxury, lalu cek apakah muncul di Inbox.
 3. Hanya jika DM masuk, ubah Mode ke **KIRIM**. Nyalakan **Posting otomatis** terakhir, setelah satu uji posting berhasil.
+
+## Unggah foto dan video dari HP atau komputer
+Di form konten ada tombol **Unggah foto atau video**. Filenya disimpan di Cloudinary dan link publiknya otomatis masuk ke kolom media, siap dipakai posting otomatis. Foto diubah ke JPEG (syarat Instagram), video MP4 atau MOV tetap. Bisa beberapa file sekaligus (maksimal 10). Link manual, termasuk Google Drive, tetap bisa ditempel di kolom di bawahnya.
+
+Cara mengaktifkan (sekali saja):
+1. Daftar gratis di cloudinary.com (tanpa kartu kredit). Di Dashboard catat **Cloud name**, **API Key**, dan **API Secret**.
+2. Di Apps Script buka Project Settings > Script Properties, lalu tambahkan tiga isian: `CLOUDINARY_CLOUD` (Cloud name), `CLOUDINARY_KEY` (API Key), `CLOUDINARY_SECRET` (API Secret).
+3. Tempel ulang `PinaraK_Api.gs`, lalu Deploy > New version.
+4. Unggah isi `pinarak-app-v18.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
+
+Catatan:
+- API Secret hanya tersimpan di Apps Script. Aplikasi hanya menerima tanda tangan sekali pakai, dan hanya perangkat yang sudah masuk yang bisa memintanya.
+- Paket gratis Cloudinary biasanya membatasi foto 10 MB dan video 100 MB per file. Kalau terlalu besar, aplikasi menampilkan pesannya. Kuota penyimpanan bisa penuh; hapus file lama sesekali lewat folder `pinarak` di Cloudinary.
+- Link hasil unggahan bersifat publik (Instagram perlu mengambilnya), tetapi namanya acak dan tidak bisa ditebak.
 
 ## Masuk dan layar pembuka
 - Masuk dengan kode akses cukup **sekali per perangkat**. Sesi berlaku setahun dan diperpanjang otomatis setiap kali aplikasi dipakai, jadi perangkat yang rutin dipakai tidak akan diminta masuk lagi. Setelah itu aplikasi langsung membuka layar pembuka lalu Beranda.
