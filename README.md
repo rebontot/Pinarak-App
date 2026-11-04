@@ -13,9 +13,9 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v23.zip`.
+1. Ekstrak `pinarak-app-v26.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v23**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v26**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
@@ -36,7 +36,7 @@ Cara mengaktifkan (sekali saja):
 1. Daftar gratis di cloudinary.com (tanpa kartu kredit). Di Dashboard catat **Cloud name**, **API Key**, dan **API Secret**.
 2. Di Apps Script buka Project Settings > Script Properties, lalu tambahkan tiga isian: `CLOUDINARY_CLOUD` (Cloud name), `CLOUDINARY_KEY` (API Key), `CLOUDINARY_SECRET` (API Secret).
 3. Tempel ulang `PinaraK_Api.gs`, lalu Deploy > New version.
-4. Unggah isi `pinarak-app-v23.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
+4. Unggah isi `pinarak-app-v26.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
 
 Catatan:
 - API Secret hanya tersimpan di Apps Script. Aplikasi hanya menerima tanda tangan sekali pakai, dan hanya perangkat yang sudah masuk yang bisa memintanya.
@@ -110,3 +110,25 @@ Satu layar, empat langkah: **1. Foto atau video**, **2. Caption** (hashtag ditul
 - Konten yang dijadwalkan punya kotak hijau; yang gagal punya kotak merah dengan alasannya dan tombol **Coba terbitkan lagi**; Mode Uji punya catatan kuning.
 - Kalau pemeriksaan gagal saat menjadwalkan, konten disimpan sebagai **draf** dan alasannya ditampilkan, jadi tidak pernah setengah terjadwal.
 - Perlu: tempel `PinaraK_Api.gs` terbaru, lalu Deploy New version.
+
+## Laporan DM, unduh PDF (v24)
+Di tab **Laporan**, ketuk **Laporan DM · unduh PDF**. Pilih **Satu hari** atau **Rentang tanggal** (maksimal 93 hari), pilih akun, lalu **Unduh PDF**.
+- Yang dicatat: **waktu DM masuk** (bukan waktu dibalas), akun pengirim, dan isi DM. Balasan kita dan pesan echo tidak ikut.
+- Urutan dari DM paling awal. Untuk rentang, dikelompokkan per hari beserta jumlahnya.
+- Isi pesan yang lebih dari 90 hari tampil sebagai [dihapus] (pengaturan Retensi isi pesan).
+- Maksimal 2000 DM per PDF. Perlu: tempel `PinaraK_Api.gs` terbaru, lalu Deploy New version.
+
+## Insight Instagram otomatis dan laporan PDF (v25)
+- Tab **Laporan**: kalau data insight minggu itu belum ada, ketuk **Ambil dari Instagram**. Angka diambil dan disimpan langsung. Di layar **Isi data insight**, tombol yang sama hanya mengisi kolom (belum menyimpan) supaya bisa diperiksa dulu.
+- Yang belum tersedia dari Instagram (kunjungan profil, ketukan tautan bio, siaran langsung) diisi sendiri. Pengikut bersih dihitung dari data minggu sebelumnya.
+- Otomatis: Rabu 08.00 mengambil minggu lalu (Senin sampai Minggu); tanggal 3 jam 08.00 mengambil 30 hari yang berakhir di akhir bulan lalu. Email laporan digeser ke Rabu 10.00 dan tanggal 3 jam 10.00.
+- **Periksa dan bagikan**: tombol **Unduh PDF** memakai teks laporan yang sedang tampil, termasuk yang kamu edit.
+- Perlu: tempel `PinaraK_Api.gs` dan `PinaraK_Code.gs` terbaru, Deploy New version, lalu jalankan menu **Pasang pemicu otomatis**. Cek izin: menu **Tes insight Instagram**.
+
+## Perbaikan tampilan hasil audit (v26)
+- Semua kontrol minimal 44 px, semua teks minimal 12 px, strip kalender menampilkan tujuh hari, dan teks tidak lagi terpotong titik tiga.
+- Inbox: empat tab berhitung. Percakapan DM: akun tampil @handle, jam tiap pesan, dan tombol Salin balasan di mode Draf.
+- Konten: judul Konten, filter Daftar satu baris plus Muat lebih banyak, dan papan minggu tujuh kolom di desktop.
+- Beranda: baris status koneksi dan penanda prioritas. Lembar Tambah tanpa emoji. Pengaturan lebih lengkap dan teks lama soal persetujuan dihapus.
+- Laporan DM per tanggal (PDF) pindah ke dalam kartu DM.
+- Perlu: tempel `PinaraK_Api.gs` terbaru (menambah jam kerja dan status Telegram ke aplikasi), lalu Deploy New version.
