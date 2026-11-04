@@ -13,9 +13,9 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v18.zip`.
+1. Ekstrak `pinarak-app-v21.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v18**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v21**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
@@ -36,7 +36,7 @@ Cara mengaktifkan (sekali saja):
 1. Daftar gratis di cloudinary.com (tanpa kartu kredit). Di Dashboard catat **Cloud name**, **API Key**, dan **API Secret**.
 2. Di Apps Script buka Project Settings > Script Properties, lalu tambahkan tiga isian: `CLOUDINARY_CLOUD` (Cloud name), `CLOUDINARY_KEY` (API Key), `CLOUDINARY_SECRET` (API Secret).
 3. Tempel ulang `PinaraK_Api.gs`, lalu Deploy > New version.
-4. Unggah isi `pinarak-app-v18.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
+4. Unggah isi `pinarak-app-v21.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
 
 Catatan:
 - API Secret hanya tersimpan di Apps Script. Aplikasi hanya menerima tanda tangan sekali pakai, dan hanya perangkat yang sudah masuk yang bisa memintanya.
@@ -74,3 +74,25 @@ Catatan:
 ## Catatan
 - Pengujian dilakukan dengan tiruan Google Sheet dan browser simulasi. Belum diuji di Apps Script, Meta, dan HP aslimu.
 - Kalender momen berisi hari nasional dan tanggal belanja. Tanggal hari besar keagamaan yang berubah tiap tahun ditambahkan lewat Agenda.
+
+## Unggah foto dan video ke Google Drive (pilihan tanpa akun baru)
+1. Tempel `PinaraK_Api.gs` dan `PinaraK_Code.gs` terbaru di Apps Script, simpan.
+2. Di Script Properties tambahkan `UPLOAD_PROVIDER` dengan nilai `DRIVE`.
+3. Muat ulang Sheet, lalu menu **PinaraK > Izinkan Google Drive**. Saat Google meminta izin: Lanjutan, Buka (tidak aman), Izinkan.
+4. **Deploy > Manage deployments > pensil > New version > Deploy**. Langkah ini wajib supaya aplikasi web memakai izin Drive.
+5. Unggah isi zip v19 ke GitHub, lalu ketuk **Perbarui** di aplikasi.
+6. Di form konten, ketuk **Unggah foto atau video**. File disimpan di folder **PinaraK Media** di Drive-mu dengan nama acak. Foto otomatis dikecilkan (maks 2048 px) dan dijadikan JPEG; video MP4 atau MOV maksimal 200 MB.
+7. Uji linknya di jendela incognito: harus langsung mengunduh file, bukan menampilkan halaman.
+Media lama dibersihkan lewat **PinaraK > Bersihkan media Drive lebih dari 60 hari** (jalankan hanya bila kontennya sudah terbit).
+
+## Posting otomatis tanpa persetujuan terpisah (v20)
+- Di form konten, centang **Terbitkan otomatis ke Instagram**, isi caption, tanggal, jam, dan media, lalu ketuk **Simpan**. Konten langsung masuk antrean dan terbit pada jam jadwal. Tombol Setujui sudah dihapus.
+- Mencentang kotak itu otomatis mengubah Status dari Draf ke Terjadwal. **Status Draf tidak pernah terbit sendiri**; itu cara menunda.
+- Kalau pemeriksaan gagal (misalnya link media tidak bisa dibuka), konten tetap tersimpan, formulir tetap terbuka, dan alasannya ditampilkan. Perbaiki lalu Simpan lagi.
+- Jam di formulir kini selalu mengikuti jadwal yang tersimpan (tidak kembali ke 19.00).
+
+## Tanggal dan jam kosong sampai kamu isi (v21)
+- Di form konten baru, kolom **Tanggal** dan **Jam** kosong. Tidak ada lagi jam bawaan 19.00.
+- Isi keduanya sekaligus, atau kosongkan keduanya. Konten tanpa jadwal tersimpan sebagai draf dan muncul di tab **Daftar**, kelompok **Tanpa jadwal**.
+- **Terbitkan otomatis** wajib punya tanggal dan jam.
+- Untuk konten yang sudah punya jadwal, jam di formulir selalu mengikuti jadwal yang tersimpan.

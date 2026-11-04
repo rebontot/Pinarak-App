@@ -38,7 +38,7 @@
  <p id="ltg" class="b" style="color:var(--acd);cursor:pointer;margin:10px 0 0;min-height:24px" role="button" tabindex="0">Tampilkan kode</p>
  <p id="lerr" style="color:var(--ert);min-height:22px;margin:6px 0" role="alert"></p>
  <button id="lgo" class="btn p w" type="button">Masuk</button>
- <p class="sm mut" style="margin-top:14px">PinaraK web v19</p>
+ <p class="sm mut" style="margin-top:14px">PinaraK web v21</p>
 </div></div>
 <script src="config.js"></script>
 <script>/*alamat-bawaan*/var c=window.PINARAK_CONFIG=window.PINARAK_CONFIG||{};if(String(c.API||'').indexOf('https://script.google.com/')!==0)c.API='https://script.google.com/macros/s/AKfycbxMFoaGQGowvAyEzndkbGzvRsCXRJsS3b9tyHGwnCeIa2KmO95YnwBV9ER81F6N83JjVQ/exec';</script>
@@ -345,20 +345,21 @@ A.kon = function (el) { S.kNew = el.dataset.d || ''; kontenSheet(el.dataset.id);
 function kontenSheet(id) {
 var k = id ? (S.kn || []).filter(function (x) { return x.id === id; })[0] : null; if (id && !k) return;
 var ig = (S.b.akun || []).filter(function (a) { return a.platform !== 'TikTok'; });
-k = k || { id: '', judul: '', caption: '', hashtag: '', platform: 'Instagram Reels', akun: (akunUtama() || {}).id || '', status: 'Draf', media: '', link: '', auto: false, setuju: false, sp: '', galat: '', jam: '19:00' };
-var tgl = kDate(k) || S.kNew || addD(today(), 1), jam = k.jam || '19:00', st = Object.keys(STAT);
+k = k || { id: '', judul: '', caption: '', hashtag: '', platform: 'Instagram Reels', akun: (akunUtama() || {}).id || '', status: 'Draf', media: '', link: '', auto: false, setuju: false, sp: '', galat: '', jam: '' };
+var tgl = kDate(k) || S.kNew || '', jam = k.jam || '', st = Object.keys(STAT);
 var link = id ? fld('Link postingan', 'kLink', k.link, 'url', 'inputmode="url"') + '<p class="sm mut" style="margin:4px 0 0">' + (k.auto ? 'Terisi otomatis saat posting otomatis terbit.' : 'Posting manual: tempel link setelah tayang. Boleh dikosongkan.') + '</p>' : '';
 sheet(id ? 'Ubah konten' : 'Konten baru', area('Caption', 'kCap', k.caption || k.judul || '', 7) + '<div class="fi">' + fld('Tanggal', 'kTgl', tgl, 'date') + fld('Jam', 'kJam', jam, 'time') + '</div>' + mediaBlock(k.media) +
+'<label style="display:flex;align-items:flex-start;gap:10px;margin:14px 0 4px;min-height:44px"><input type="checkbox" id="kAuto"' + (k.auto ? ' checked' : '') + ' style="width:22px;height:22px;margin-top:2px"> <span><b>Terbitkan otomatis ke Instagram</b><br><span class="sm mut">Konten langsung masuk antrean dan terbit pada jam jadwal. Tidak perlu persetujuan lagi. Untuk menunda, ubah Status ke Draf.</span></span></label>' +
 '<details class="dtl"><summary>Pengaturan posting</summary>' + sel('Platform', 'kPlat', platOpts(k.platform), k.platform) + sel('Status', 'kStat', st.map(function (x) { return [x, (STAT[x] || [x])[0]]; }), ns(k.status)) + fld('Hashtag', 'kHash', k.hashtag) + link +
-'<label style="display:flex;align-items:center;gap:10px;margin:14px 0;min-height:44px"><input type="checkbox" id="kAuto"' + (k.auto ? ' checked' : '') + ' style="width:22px;height:22px"> Posting otomatis ke Instagram saat jadwal tiba</label></details><input type="hidden" id="kAkun" value="' + esc(k.akun || (akunUtama() || {}).id || '') + '">' +
+'</details><input type="hidden" id="kAkun" value="' + esc(k.akun || (akunUtama() || {}).id || '') + '">' +
 (k.sp ? '<p class="sm mut">Status publikasi: <b>' + esc(k.sp) + '</b>' + (k.galat ? '. ' + esc(k.galat) : '') + '</p>' : '') + '<div id="kMsg" class="sm" style="color:var(--ert);margin-top:8px" role="alert"></div>' +
-'<div style="display:flex;flex-direction:column;gap:8px;margin-top:14px"><button class="btn p w" data-a="kSimpan" data-id="' + esc(id || '') + '">Simpan</button>' + (id ? '<button class="btn w" data-a="kSetuju" data-id="' + esc(id) + '">Setujui posting otomatis</button><button class="btn w" data-a="kTayang" data-id="' + esc(id) + '">Tandai sudah tayang</button>' : '') + '</div>');
+'<div style="display:flex;flex-direction:column;gap:8px;margin-top:14px"><button class="btn p w" data-a="kSimpan" data-id="' + esc(id || '') + '">Simpan</button>' + (id ? '<button class="btn w" data-a="kTayang" data-id="' + esc(id) + '">Tandai sudah tayang</button>' : '') + '</div>');
 renderMed();
 }
-function kPayload() { var tgl = val('kTgl'), jam = val('kJam'); return { judul: capLine(val('kCap')), caption: val('kCap').trim(), hashtag: val('kHash'), platform: val('kPlat'), akun: val('kAkun'), status: val('kStat'), media: val('kMedia').trim(), link: val('kLink').trim(), jadwal: tgl ? tgl + 'T' + (jam || '09:00') + ':00+07:00' : '', auto: chk('kAuto'), jenis: 'Terjadwal' }; }
+function kPayload() { var tgl = val('kTgl'), jam = val('kJam'); return { judul: capLine(val('kCap')), caption: val('kCap').trim(), hashtag: val('kHash'), platform: val('kPlat'), akun: val('kAkun'), status: val('kStat'), media: val('kMedia').trim(), link: val('kLink').trim(), jadwal: tgl && jam ? tgl + 'T' + jam + ':00+07:00' : '', auto: chk('kAuto'), jenis: 'Terjadwal' }; }
 A.kSimpan = function (el, e, setuju) {
-var p = kPayload(); if (!p.caption) { $('#kMsg').textContent = 'Caption wajib diisi.'; return; } if (setuju) p.setuju = true; if (!p.jadwal) delete p.jadwal;
-busy(el, true); call('apiKontenSave', el.dataset.id || '', p).then(function (r) { busy(el, false); if (r.ok) { tutup(); toast(setuju ? 'Disetujui dan dijadwalkan' : 'Tersimpan'); return reloadKonten(); } $('#kMsg').textContent = r.problems ? 'Belum bisa disetujui: ' + r.problems.join('; ') : (r.error || 'Gagal menyimpan'); }).catch(function (e2) { busy(el, false); err(e2); });
+var p = kPayload(); if (!p.caption) { $('#kMsg').textContent = 'Caption wajib diisi.'; return; } if (setuju) p.setuju = true; var tg0 = val('kTgl'), jm0 = val('kJam'); if (!!tg0 !== !!jm0) { $('#kMsg').textContent = 'Isi tanggal dan jam sekaligus, atau kosongkan keduanya.'; return; } if (chk('kAuto') && !tg0) { $('#kMsg').textContent = 'Posting otomatis perlu tanggal dan jam.'; return; }
+busy(el, true); call('apiKontenSave', el.dataset.id || '', p).then(function (r) { busy(el, false); if (r.ok) { if (r.id) el.dataset.id = r.id; if (r.problems && r.problems.length) { $('#kMsg').textContent = 'Tersimpan, tetapi belum bisa terbit otomatis: ' + r.problems.join('; '); return reloadKonten(); } var jm = p.jadwal ? p.jadwal.slice(11, 16) : ''; tutup(); toast(r.antre ? 'Tersimpan. Terbit otomatis jam ' + jm : (p.jadwal ? 'Tersimpan' : 'Tersimpan tanpa jadwal. Lihat di tab Daftar.')); return reloadKonten(); } $('#kMsg').textContent = r.problems ? 'Belum bisa disetujui: ' + r.problems.join('; ') : (r.error || 'Gagal menyimpan'); }).catch(function (e2) { busy(el, false); err(e2); });
 };
 A.kSetuju = function (el) { var p = kPayload(); if (!chk('kAuto')) { $('#kMsg').textContent = 'Nyalakan posting otomatis dulu.'; return; } A.kSimpan(el, null, true); };
 A.kTayang = function (el) { busy(el, true); call('apiKontenDone', el.dataset.id, val('kLink').trim()).then(function (r) { busy(el, false); if (r.ok) { tutup(); toast('Ditandai sudah tayang'); return reloadKonten(); } toast(r.error); }).catch(function (e) { busy(el, false); err(e); }); };
@@ -487,7 +488,7 @@ if (S.sh !== 'pengaturan') return; var b = S.b, a = akunUtama();
 var modes = [['BAYANGAN', 'Bayangan: hanya kategori'], ['DRAF', 'Draf: kategori dan draf balasan'], ['KIRIM', 'Kirim: balasan terkirim ke Instagram'], ['UJI', 'Uji: simulasi, tidak ada yang terkirim']];
 var akun = a ? '<div class="rw" style="border-top:0"><span class="av">' + esc(String(a.handle || a.nama || '?').charAt(0).toUpperCase()) + '</span><div class="g">' + t2('@' + String(a.handle || a.nama).replace('@', ''), 'Instagram') + '</div>' + (a.tokenDays == null ? '' : chip(a.tokenDays < 0 ? 'Token habis' : 'Token ' + a.tokenDays + ' hari', a.tokenDays <= 7 ? 'wn' : 'ok')) + '</div><button class="btn w" style="margin-top:8px" data-a="tokenBaru">Perbarui token</button>' : '<div class="empty">Akun Instagram belum diisi di tab Akun pada Sheet.</div>';
 sb('<h2 style="margin:0 0 4px">Akun Instagram</h2>' + akun + '<div style="margin-top:8px">' + sel('Mode kerja', 'stMode', modes, b.mode).replace('<select ', '<select data-ch="setMode" ') + '</div><div style="display:flex;align-items:center;gap:12px;margin-top:16px;min-height:48px"><div class="g" style="flex:1"><div class="b">Posting otomatis</div><div class="sm mut">Saklar utama. Tiap konten tetap perlu disetujui.</div></div><button class="sw' + (b.autoPost ? ' on' : '') + '" data-a="setAuto" role="switch" aria-checked="' + !!b.autoPost + '" aria-label="Posting otomatis"></button></div>' +
-'<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v19</p>');
+'<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v21</p>');
 }
 document.addEventListener('change', function (e) { var t = e.target; if (t.dataset && t.dataset.ch && A[t.dataset.ch]) A[t.dataset.ch](t); });
 A.setMode = function (t) { call('apiSetSetting', 'Mode', t.value).then(function (r) { if (r.ok) { S.b.mode = r.value; banner(); toast('Mode: ' + r.value); cacheSave(); } else { toast(r.error); renderSet(); } }).catch(function (e) { err(e); renderSet(); }); };
@@ -618,11 +619,11 @@ var l = (S.kn || []).filter(function (k) {
 if (fp && pf(k.platform) !== fp) return false;
 if (fs && ns(k.status) !== fs) return false;
 return !ql || [k.caption, k.judul, k.produk, k.pilar, k.platform, k.hashtag].join(' ').toLowerCase().indexOf(ql) >= 0;
-}).sort(function (a, b) { var x = kDate(a) + (a.jam || ''), y = kDate(b) + (b.jam || ''); return x < y ? 1 : -1; });
+}).sort(function (a, b) { var x = kDate(a) ? kDate(a) + (a.jam || '') : '9999', y = kDate(b) ? kDate(b) + (b.jam || '') : '9999'; return x < y ? 1 : -1; });
 var tot = l.length; l = l.slice(0, 60); var g = {}, ord = [];
 l.forEach(function (k) { var m = kDate(k).slice(0, 7); if (!g[m]) { g[m] = []; ord.push(m); } g[m].push(k); });
 return '<p class="sm mut" style="margin:10px 0 8px"><b>' + tot + ' hasil</b>' + (q ? ' untuk “' + esc(q) + '”' : '') + ' di semua bulan' + (tot > 60 ? ' (60 teratas)' : '') + '</p>' + (ord.map(function (m) {
-return '<div class="card" style="margin-bottom:12px"><div class="mh">' + BLNF[Number(m.slice(5, 7)) - 1] + ' ' + m.slice(0, 4) + '</div>' + g[m].map(function (k) { return '<button class="dr" data-a="kon" data-id="' + esc(k.id) + '"><span class="tm">' + esc(k.jam || '--:--') + '</span><span class="g"><span class="sm mut" style="display:block">' + esc(tglS(kDate(k))) + '</span><span class="b" style="display:block">' + hlt(kt(k), q) + '</span><span class="sm mut ell" style="display:block">' + esc(pf(k.platform) + (k.pilar ? ' · ' + k.pilar : '')) + '</span></span>' + sChip(k.status, k.sp) + '</button>'; }).join('') + '</div>';
+return '<div class="card" style="margin-bottom:12px"><div class="mh">' + (m ? BLNF[Number(m.slice(5, 7)) - 1] + ' ' + m.slice(0, 4) : 'Tanpa jadwal') + '</div>' + g[m].map(function (k) { return '<button class="dr" data-a="kon" data-id="' + esc(k.id) + '"><span class="tm">' + esc(k.jam || '--:--') + '</span><span class="g"><span class="sm mut" style="display:block">' + esc(kDate(k) ? tglS(kDate(k)) : 'Belum dijadwalkan') + '</span><span class="b" style="display:block">' + hlt(kt(k), q) + '</span><span class="sm mut ell" style="display:block">' + esc(pf(k.platform) + (k.pilar ? ' · ' + k.pilar : '')) + '</span></span>' + sChip(k.status, k.sp) + '</button>'; }).join('') + '</div>';
 }).join('') || '<div class="card empty">Tidak ada konten yang cocok.</div>');
 }
 function vDaftar() {
@@ -736,6 +737,7 @@ return step(0);
 });
 });
 }
+document.addEventListener('change', function (e) { if (e.target && e.target.id === 'kAuto' && e.target.checked) { var st = document.getElementById('kStat'); if (st && st.value === 'Draf') st.value = 'Terjadwal'; } });
 function kUp(file) {
 var box = document.getElementById('kUpl'); if (!box) return;
 if (mediaList().length + box.children.length >= 10) { toast('Maksimal 10 media per posting.'); return; }
