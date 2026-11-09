@@ -13,9 +13,9 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v29.zip`.
+1. Ekstrak `pinarak-app-v30.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v29**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v30**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
@@ -36,7 +36,7 @@ Cara mengaktifkan (sekali saja):
 1. Daftar gratis di cloudinary.com (tanpa kartu kredit). Di Dashboard catat **Cloud name**, **API Key**, dan **API Secret**.
 2. Di Apps Script buka Project Settings > Script Properties, lalu tambahkan tiga isian: `CLOUDINARY_CLOUD` (Cloud name), `CLOUDINARY_KEY` (API Key), `CLOUDINARY_SECRET` (API Secret).
 3. Tempel ulang `PinaraK_Api.gs`, lalu Deploy > New version.
-4. Unggah isi `pinarak-app-v29.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
+4. Unggah isi `pinarak-app-v30.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
 
 Catatan:
 - API Secret hanya tersimpan di Apps Script. Aplikasi hanya menerima tanda tangan sekali pakai, dan hanya perangkat yang sudah masuk yang bisa memintanya.
@@ -150,3 +150,11 @@ Di tab **Laporan**, ketuk **Laporan DM · unduh PDF**. Pilih **Satu hari** atau 
 - PDF **Laporan DM Instagram**: kolom Tanggal, Nama akun, Isi chat (ringkasan, misalnya "Tanya harga dan ready atau stok"), Produk, Admin, Akun (Baru atau Lama), dan Dibalas.
 - Produk dan Admin diambil dari tab Percakapan (kolom `produk` dan kolom `admin` yang ditambahkan sendiri) serta nama di tab Produk.
 - Kartu DM: kotak **DM akun lama** menggantikan Pesan per akun.
+
+## Beranda ringkas dan DM yang memperbarui diri (v30)
+- Beranda: kartu DM ringkas dengan keadaan yang jujur (belum tersambung, tertunda, bermasalah, atau semua sudah dibalas), Perlu dilakukan di atas, dan kartu Hari ini. Banner sapaan ganda dibuang.
+- Label status: "DM: draf balasan" menggantikan "Mode Draf" yang menyesatkan.
+- Inbox: tombol Segarkan, waktu pembaruan, peringatan bila penarikan DM mati atau tertunda, dan tombol Aktifkan.
+- Pembaruan otomatis: tiap 20 detik app memeriksa satu penanda murah, dan memuat Inbox hanya bila berubah. Juga memperbarui saat app dibuka kembali.
+- Pengaturan: saklar Tarik DM otomatis dan tombol Tarik DM sekarang.
+- Lebih cepat: layar pembuka tidak lagi menahan 2 detik, pemuatan latar belakang ditunda, dan server membaca jauh lebih sedikit data.
