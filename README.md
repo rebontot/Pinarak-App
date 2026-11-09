@@ -13,9 +13,9 @@
 3. Di tab Pengaturan, ubah **Mode** menjadi **UJI** untuk mencoba tanpa akses Meta.
 
 ## 3. Aplikasi (GitHub Pages)
-1. Ekstrak `pinarak-app-v26.zip`.
+1. Ekstrak `pinarak-app-v27.zip`.
 2. Di repositori GitHub: Add file > Upload files, pilih semua berkas hasil ekstrak (timpa yang lama), Commit changes.
-3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v26**.
+3. Tunggu proses build selesai, lalu buka alamat situsnya. Di layar masuk ada tulisan **PinaraK web v27**.
 
 ## 4. Mencoba tanpa Meta
 - Menu **PinaraK > Isi contoh lengkap Tahap 1 (agenda, insight, laporan)** mengisi sekaligus: agenda, catatan kantor, kartu produk, referensi, data insight, serta DM dan konten contoh. Dengan itu Beranda, Konten, dan semua tab Laporan (mingguan, bulanan, catatan) langsung berisi. Aman dijalankan ulang.
@@ -36,7 +36,7 @@ Cara mengaktifkan (sekali saja):
 1. Daftar gratis di cloudinary.com (tanpa kartu kredit). Di Dashboard catat **Cloud name**, **API Key**, dan **API Secret**.
 2. Di Apps Script buka Project Settings > Script Properties, lalu tambahkan tiga isian: `CLOUDINARY_CLOUD` (Cloud name), `CLOUDINARY_KEY` (API Key), `CLOUDINARY_SECRET` (API Secret).
 3. Tempel ulang `PinaraK_Api.gs`, lalu Deploy > New version.
-4. Unggah isi `pinarak-app-v26.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
+4. Unggah isi `pinarak-app-v27.zip` ke GitHub, lalu ketuk Perbarui di aplikasi.
 
 Catatan:
 - API Secret hanya tersimpan di Apps Script. Aplikasi hanya menerima tanda tangan sekali pakai, dan hanya perangkat yang sudah masuk yang bisa memintanya.
@@ -132,3 +132,9 @@ Di tab **Laporan**, ketuk **Laporan DM · unduh PDF**. Pilih **Satu hari** atau 
 - Beranda: baris status koneksi dan penanda prioritas. Lembar Tambah tanpa emoji. Pengaturan lebih lengkap dan teks lama soal persetujuan dihapus.
 - Laporan DM per tanggal (PDF) pindah ke dalam kartu DM.
 - Perlu: tempel `PinaraK_Api.gs` terbaru (menambah jam kerja dan status Telegram ke aplikasi), lalu Deploy New version.
+
+## Laporan DM dan sosmed di dua tab, kesimpulan topik DM (v27)
+- Tab Laporan, **Mingguan** dan **Bulanan**, sama-sama menampilkan kartu **Sosmed** dan kartu **DM**.
+- Kartu DM: Total DM, Dibalas, Median balas, **Rata-rata per hari**, **Pesan per percakapan**, Topik terbanyak, kotak **Kesimpulan**, dan grafik **Topik pesan terbanyak**.
+- Topik dikelompokkan dari kata kunci di pesan pelanggan (bukan AI), jadi berlaku juga untuk DM hasil impor.
+- Perlu: tempel `PinaraK_Code.gs`, `PinaraK_Fitur.gs`, dan `PinaraK_Api.gs` terbaru, lalu Deploy New version.
