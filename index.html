@@ -6,7 +6,7 @@
 <title>PinaraK</title>
 <meta name="theme-color" content="#26CD7D">
 <meta name="description" content="PinaraK: asisten kerja sosial media">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com; connect-src https://script.google.com https://*.googleusercontent.com https://api.cloudinary.com; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://*.cdninstagram.com https://*.fbcdn.net https://drive.google.com https://*.googleusercontent.com; connect-src https://script.google.com https://*.googleusercontent.com https://api.cloudinary.com; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="PinaraK">
@@ -98,7 +98,7 @@ details.ibx{display:none}
  <p id="ltg" class="b" style="color:var(--acd);cursor:pointer;margin:10px 0 0;min-height:24px" role="button" tabindex="0">Tampilkan kode</p>
  <p id="lerr" style="color:var(--ert);min-height:22px;margin:6px 0" role="alert"></p>
  <button id="lgo" class="btn p w" type="button">Masuk</button>
- <p class="sm mut" style="margin-top:14px">PinaraK web v43</p>
+ <p class="sm mut" style="margin-top:14px">PinaraK web v44</p>
 </div></div>
 <script src="config.js"></script>
 <script>/*alamat-bawaan*/var c=window.PINARAK_CONFIG=window.PINARAK_CONFIG||{};if(String(c.API||'').indexOf('https://script.google.com/')!==0)c.API='https://script.google.com/macros/s/AKfycbxMFoaGQGowvAyEzndkbGzvRsCXRJsS3b9tyHGwnCeIa2KmO95YnwBV9ER81F6N83JjVQ/exec';</script>
@@ -743,7 +743,7 @@ if (S.sh !== 'pengaturan') return; var b = S.b, a = akunUtama();
 var modes = [['BAYANGAN', 'Bayangan: hanya kategori'], ['DRAF', 'Draf: kategori dan draf balasan'], ['KIRIM', 'Kirim: balasan terkirim ke Instagram'], ['UJI', 'Uji: simulasi, tidak ada yang terkirim']];
 var akun = a ? '<div class="rw" style="border-top:0"><span class="av">' + esc(String(a.handle || a.nama || '?').charAt(0).toUpperCase()) + '</span><div class="g">' + t2('@' + String(a.handle || a.nama).replace('@', ''), 'Instagram') + '</div>' + (a.tokenDays == null ? '' : chip(a.tokenDays < 0 ? 'Token habis' : 'Token ' + a.tokenDays + ' hari', a.tokenDays <= 7 ? 'wn' : 'ok')) + '</div><button class="btn w" style="margin-top:8px" data-a="tokenBaru">Perbarui token</button>' : '<div class="empty">Akun Instagram belum diisi di tab Akun pada Sheet.</div>';
 sb('<h2 style="margin:0 0 4px">Akun Instagram</h2>' + akun + '<div style="margin-top:8px">' + sel('Mode kerja', 'stMode', modes, b.mode).replace('<select ', '<select data-ch="setMode" ') + '</div><div style="display:flex;align-items:center;gap:12px;margin-top:16px;min-height:48px"><div class="g" style="flex:1"><div class="b">Posting otomatis</div><div class="sm mut">Terbit sesuai jadwal. Draf tidak pernah terbit sendiri.</div></div><button class="sw' + (b.autoPost ? ' on' : '') + '" data-a="setAuto" role="switch" aria-checked="' + !!b.autoPost + '" aria-label="Posting otomatis"></button></div>' +
-'' + dmSet() + infoSet() + '<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v43</p>');
+'' + dmSet() + infoSet() + '<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v44</p>');
 }
 document.addEventListener('change', function (e) { var t = e.target; if (t.dataset && t.dataset.ch && A[t.dataset.ch]) A[t.dataset.ch](t); });
 A.setMode = function (t) { call('apiSetSetting', 'Mode', t.value).then(function (r) { if (r.ok) { S.b.mode = r.value; banner(); toast('Mode: ' + r.value); cacheSave(); } else { toast(r.error); renderSet(); } }).catch(function (e) { err(e); renderSet(); }); };
