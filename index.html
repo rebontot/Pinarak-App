@@ -36,7 +36,7 @@
 .sw{position:relative}.sw::after{content:'';position:absolute;inset:-8px -4px}
 .rw .ell,.tc .ell,.nx .ell{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .rw.wr .ell{-webkit-line-clamp:4}
-.hero2.mini{padding:18px 16px 14px;border-radius:26px}.hero2.mini .hl{font-size:24px;line-height:30px}.hero2.mini .hs2{margin:4px 0 2px;font-size:14px}.hero2.mini .hbtn{margin-top:12px;min-height:48px}.sts{margin:0 0 10px;font-size:12px}.dmw{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:18px;border:1px solid #F2C879;background:#FFF8E6;margin:0 0 12px;font-size:14px;line-height:20px}.dmw .g{flex:1;min-width:0}.dmw .btn{min-height:44px;flex:none}</style>
+.hero2.mini{padding:18px 16px 14px;border-radius:26px}.hero2.mini .hl{font-size:24px;line-height:30px}.hero2.mini .hs2{margin:4px 0 2px;font-size:14px}.hero2.mini .hbtn{margin-top:12px;min-height:48px}.sts{margin:0 0 10px;font-size:12px}.dmw{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:18px;border:1px solid #F2C879;background:#FFF8E6;margin:0 0 12px;font-size:14px;line-height:20px}.dmw .g{flex:1;min-width:0}.dmw .btn{min-height:44px;flex:none}.ag7{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:6px;margin:0!important;padding:2px 0 6px!important}</style>
 </head>
 <body>
 <div id="splash" aria-hidden="true"><div class="spl"><i class="glow"></i><img src="logo-320.webp" width="108" height="108" alt=""></div><b>PinaraK</b><span id="spg" class="sg"></span><span class="stg">Monggo pinarak</span><i class="sbar"></i></div>
@@ -54,7 +54,7 @@
  <p id="ltg" class="b" style="color:var(--acd);cursor:pointer;margin:10px 0 0;min-height:24px" role="button" tabindex="0">Tampilkan kode</p>
  <p id="lerr" style="color:var(--ert);min-height:22px;margin:6px 0" role="alert"></p>
  <button id="lgo" class="btn p w" type="button">Masuk</button>
- <p class="sm mut" style="margin-top:14px">PinaraK web v30</p>
+ <p class="sm mut" style="margin-top:14px">PinaraK web v36</p>
 </div></div>
 <script src="config.js"></script>
 <script>/*alamat-bawaan*/var c=window.PINARAK_CONFIG=window.PINARAK_CONFIG||{};if(String(c.API||'').indexOf('https://script.google.com/')!==0)c.API='https://script.google.com/macros/s/AKfycbxMFoaGQGowvAyEzndkbGzvRsCXRJsS3b9tyHGwnCeIa2KmO95YnwBV9ER81F6N83JjVQ/exec';</script>
@@ -136,11 +136,12 @@ function toast(m) { var t = $('#toast'); t.textContent = m; t.classList.add('on'
 function err(e) { toast(typeof e === 'string' ? e : 'Terjadi galat'); }
 var S = { b: null, home: null, th: null, kn: null, tab: 'beranda', sub: { konten: 'kalender', laporan: 'mingguan' }, fil: 'w', wk: '', rc: null, rcMinggu: '', lap: null, lapMinggu: '', bln: '', bul: null, cat: null, catFil: 'Semua', jw: 'produk', produk: null, faq: null, ref: null, offline: false, dm: null, err: '' };
 var TABS = [['beranda', 'Beranda', 'home'], ['inbox', 'Inbox', 'inbox'], ['konten', 'Konten', 'cal'], ['laporan', 'Laporan', 'chart']];
+var SIDE = [TABS[0], ['hariini', 'Hari ini', 'check'], TABS[1], TABS[2], ['agenda', 'Agenda', 'clock'], TABS[3]];
 function badge() { var n = S.home && S.home.dm ? S.home.dm.tunggu : 0; return n ? '<span class="bd">' + (n > 99 ? '99+' : n) + '</span>' : ''; }
 function shell() {
 var tb = function (t) { return '<button class="tb' + (S.tab === t[0] ? ' on' : '') + '" data-a="nav" data-t="' + t[0] + '" aria-label="' + t[1] + '"' + (S.tab === t[0] ? ' aria-current="page"' : '') + '>' + ic(t[2]) + t[1] + (t[0] === 'inbox' ? badge() : '') + '</button>'; };
 $('#tabs').innerHTML = tb(TABS[0]) + tb(TABS[1]) + '<button class="cfab" data-a="tambah" aria-label="Tambah">' + ic('plus') + '</button>' + tb(TABS[2]) + tb(TABS[3]);
-$('#side').innerHTML = '<div class="lg" style="padding:4px 14px 18px">PinaraK</div>' + TABS.map(function (t) { return '<button class="sn' + (S.tab === t[0] ? ' on' : '') + '" data-a="nav" data-t="' + t[0] + '">' + ic(t[2]) + t[1] + (t[0] === 'inbox' ? badge() : '') + '</button>'; }).join('') + '<div style="flex:1"></div><button class="sn" data-a="pengaturan">' + ic('gear') + 'Pengaturan</button>';
+$('#side').innerHTML = '<div class="lg" style="padding:4px 14px 18px">PinaraK</div>' + SIDE.map(function (t) { return '<button class="sn' + (S.tab === t[0] ? ' on' : '') + '" data-a="nav" data-t="' + t[0] + '">' + ic(t[2]) + t[1] + (t[0] === 'inbox' ? badge() : '') + '</button>'; }).join('') + '<div style="flex:1"></div><button class="sn" data-a="pengaturan">' + ic('gear') + 'Pengaturan</button>';
 if (S.b) splashOff();
 }
 function banner() {
@@ -157,7 +158,7 @@ shell(); render(); window.scrollTo(0, 0); load(tab);
 function render() {
 banner(); var v = $('#view');
 if (S.err) { splashOff(); v.innerHTML = '<div class="card empty"><p class="b">Tidak bisa membuka app</p><p>' + esc(S.err) + '</p><button class="btn p" data-a="muat">Coba lagi</button></div>'; return; }
-v.innerHTML = ({ beranda: vHome, inbox: vInbox, konten: vKonten, laporan: vLaporan })[S.tab]();
+v.innerHTML = ({ beranda: vHome, inbox: vInbox, konten: vKonten, laporan: vLaporan, hariini: vHariIni, agenda: vAgenda })[S.tab]();
 }
 function load(tab) {
 if (tab === 'konten' && S.sub.konten === 'rencana' && !S.rc) loadRencana(S.rcMinggu);
@@ -242,7 +243,7 @@ var rows = q.list.map(function (x) {
 return rwb('data-a="dm" data-id="' + esc(x.id) + '" style="align-items:flex-start"', '<span class="av">' + esc((x.user || '?').charAt(0).toUpperCase()) + '</span>',
 '<span style="display:flex;justify-content:space-between;gap:8px"><span class="b ell">@' + esc(x.user) + '</span><span class="sm mut" style="flex:none">' + (isW(x) ? mnt(x.tunggu) : '') + '</span></span><span class="ell mut" style="display:block">' + esc(prev(x)) + '</span><span style="display:flex;gap:6px;margin-top:4px;align-items:center">' + mark(x) + '<span class="sm mut ell">' + esc(x.kategori) + '</span></span>', '', 'dmc');
 }).join('') || '<div class="empty">' + (!q.all.length && !dmInfo().aktif ? 'Belum ada DM. Penarikan DM otomatis belum aktif, jadi DM baru tidak masuk sendiri.' : S.fil === 'w' ? 'Tidak ada DM yang menunggu.' : 'Tidak ada DM di daftar ini.') + '</div>';
-return '<div class="hd"><h1>Inbox</h1><span style="display:flex;gap:8px"><button class="btn sm2" data-a="segarkan">Segarkan</button><button class="btn sm2" data-a="jawaban">' + ic('book') + 'Jawaban</button></span></div>' + dmWarn() + '<div class="sts sm mut">' + dmLine() + '</div><div class="ct4" role="tablist">' + fl + '</div><div>' + rows + '</div>';
+return '<div class="hd"><h1>Inbox</h1><span style="display:flex;gap:8px"><button class="btn sm2" data-a="segarkan">Segarkan</button><button class="btn sm2" data-a="jawaban">' + ic('book') + 'Jawaban</button></span></div>' + dmWarn() + '<div class="sts sm mut">' + dmLine() + '</div>' + '<details class="ibx"' + (window.innerWidth >= 900 ? ' open' : '') + '><summary class="b" style="cursor:pointer;padding:8px 0">Ringkasan dan statistik DM</summary>' + dmRingkasKartu(true) + '</details><div class="ct4" role="tablist">' + fl + '</div><div>' + rows + '</div>';
 }
 function kDate(k) { return ymdIso(k.jadwal) || ymdIso(k.tanggal); }
 function segEl(items, act, cur, extra) { return '<div class="seg" role="tablist">' + items.map(function (i) { return '<button class="' + (cur === i[0] ? 'on' : '') + '" data-a="' + act + '" data-s="' + i[0] + '"' + (extra || '') + '>' + i[1] + '</button>'; }).join('') + '</div>'; }
@@ -276,6 +277,14 @@ var hd = '<div class="hd"><h1>Laporan</h1></div>' + segEl([['mingguan', 'Minggua
 var s = S.sub.laporan; return hd + (s === 'bulanan' ? vBulan() : s === 'catatan' ? vCatatan() : vMingguan());
 }
 function weekNav(m, a) { return '<div class="card" style="padding:12px 16px"><div class="hd"><button class="x" data-a="' + a + '" data-n="-7" aria-label="Sebelumnya">' + ic('back') + '</button><h2>' + rng(m, addD(m, 6)) + '</h2><button class="x" data-a="' + a + '" data-n="7" aria-label="Berikutnya">' + ic('chev') + '</button></div></div>'; }
+function dmRingkasKartu(penuh) {
+var L = S.lap, dm = L && L.dm;
+if (!dm || !dm.ada || !dm.ringkas) return '<div class="card empty"><p class="b">Ringkasan DM</p><p>' + (L ? 'Belum ada DM pada minggu ini.' : 'Memuat ringkasan...') + '</p></div>';
+var r = dm.ringkas, tl = function (a, b) { return '<div class="kp"><div class="sm mut">' + a + '</div><div class="big">' + b + '</div></div>'; };
+var inti = '<div class="g3">' + tl('Akun baru', nf(r.total)) + tl('Dibalas', nf(r.dibalas)) + tl('Median balas', r.median == null ? '-' : mnt(r.median)) + '</div>';
+var isi = '<div class="sm mut" style="margin-bottom:8px">' + esc(dm.label) + '</div>' + inti + (penuh ? dmCharts(dm, false) : (r.rincian && r.rincian.masuk ? '<div class="sm mut" style="margin-top:8px">Dari ' + nf(r.rincian.masuk) + ' DM masuk, ' + nf(r.rincian.penting || 0) + ' bertanya atau akun baru.</div>' : '') + (r.kesimpulan ? '<p class="sm" style="margin:8px 0 0">' + esc(r.kesimpulan) + '</p>' : ''));
+return '<div class="card"><div class="hd"><h2>Ringkasan DM</h2>' + (penuh ? '' : '<button class="btn t sm2" data-a="nav" data-t="inbox">Statistik lengkap</button>') + '</div>' + isi + '</div>';
+}
 function dmKartu(dm, kosong, bulan) {
 if (!dm.ada) return '<div class="card empty"><p class="b">DM · ' + esc(dm.label) + '</p><p>' + kosong + '</p></div>';
 var r = dm.ringkas, kom = function (x) { return String(x).replace('.', ','); }, terb = r.kategori[0] ? r.kategori[0].nama : (r.topik && r.topik[0] ? r.topik[0].nama : '-');
@@ -293,7 +302,7 @@ var so = L.sosmed, dm = L.dm, a = '';
 if (!so.ada) a = '<div class="card empty"><p class="b">Sosmed · ' + esc(so.label) + '</p><p>Data insight minggu ini belum diisi.</p><button class="btn p" data-a="iOto">Ambil dari Instagram</button><button class="btn" style="margin-top:8px" data-a="insight">Isi sendiri</button></div>';
 else a = '<div class="card"><div class="hd"><h2>Sosmed</h2>' + (so.arsip && so.arsip.dibagikan ? chip('Sudah dibagikan', 'ok') : chip('Draf', 'nu')) + '</div><div class="sm mut" style="margin-bottom:10px">' + esc(so.label) + (so.labelPrev ? ' · dibanding ' + esc(so.labelPrev) : '') + '</div><div class="g2">' + so.kpi.map(function (k) { return '<div class="kp"><div class="sm mut">' + esc(k.label) + '</div><div class="big">' + (k.label === 'Pengikut bersih' ? nfs(k.nilai) : kc(k.nilai)) + '</div>' + dch(k.delta) + '</div>'; }).join('') + '</div>' + soCharts(so) + '<p style="margin:12px 0 4px">' + esc(so.evaluasi.ringkasan) + '</p><button class="btn p w" style="margin-top:8px" data-a="lapbuka" data-j="sosmed">Periksa dan bagikan</button></div>';
 var d = dmKartu(dm, 'Belum ada DM pada minggu ini.', false);
-return weekNav(L.minggu, 'lapgeser') + '<div class="cols">' + a + d + '</div>';
+return weekNav(L.minggu, 'lapgeser') + '<div class="cols">' + a + d + '</div><button class="btn p w" style="margin-top:12px" data-a="lapMgPdf">Unduh laporan mingguan lengkap (PDF)</button>';
 }
 function vBulan() {
 var B = S.bul; if (!B) return skel(3);
@@ -422,24 +431,25 @@ sheet('Laporan DM', '<p class="sm mut" style="margin:0">Pilih tanggal, lihat DM 
 '<label class="lbl">Tanggal laporan</label><div class="seg" role="group" aria-label="Jenis tanggal"><button type="button" data-a="dlMode" data-v="hari" class="' + (hari ? 'on' : '') + '" aria-pressed="' + hari + '">Satu hari</button><button type="button" data-a="dlMode" data-v="rentang" class="' + (hari ? '' : 'on') + '" aria-pressed="' + !hari + '">Rentang tanggal</button></div>' +
 '<div class="fi" style="margin-top:8px">' + fld(hari ? 'Tanggal' : 'Dari', 'dlA', d.a, 'date') + (hari ? '' : fld('Sampai', 'dlB', d.b, 'date')) + '</div>' +
 sel('Akun', 'dlAk', ops, d.ak) + '<div id="dlSum" style="margin-top:14px"></div><div id="dlPrev"></div>' +
-'<div id="dlMsg" class="sm" style="color:var(--ert);margin-top:8px" role="alert"></div><button class="btn p w" id="dlBtn" style="margin-top:14px" data-a="dlPdf" disabled>Unduh PDF</button><div id="dlNama" class="sm mut" style="text-align:center;margin-top:8px"></div><div id="dlRet" class="sm mut" style="text-align:center;margin-top:10px"></div>');
+'<div id="dlMsg" class="sm" style="color:var(--ert);margin-top:8px" role="alert"></div><button class="btn p w" id="dlBtn" style="margin-top:14px" data-a="dlPdf" disabled>Unduh PDF</button><button class="btn w" id="dlBtn2" style="margin-top:8px" data-a="dlRingkas" disabled>Unduh ringkasan presentasi (PDF)</button><div id="dlNama" class="sm mut" style="text-align:center;margin-top:8px"></div><div id="dlRet" class="sm mut" style="text-align:center;margin-top:10px"></div>');
 }
 function dlAkhir() { var d = S.dl; return d.m === 'hari' ? d.a : (d.b || d.a); }
 function dlMuat() {
 var d = S.dl, n = ++d.seq, z = document.getElementById('dlSum'); if (!z) return;
-if (!d.a || (d.m === 'rentang' && !d.b)) { z.innerHTML = ''; document.getElementById('dlPrev').innerHTML = ''; document.getElementById('dlBtn').disabled = true; return; }
+if (!d.a || (d.m === 'rentang' && !d.b)) { z.innerHTML = ''; document.getElementById('dlPrev').innerHTML = ''; dlBtnSet(true); return; }
 z.innerHTML = '<div class="sk" style="height:84px"></div>';
 call('apiLaporanDm', d.a, dlAkhir(), d.ak).then(function (r) { if (n === d.seq && document.getElementById('dlSum')) dlTampil(r); }).catch(function (e) { if (n === d.seq && document.getElementById('dlSum')) { document.getElementById('dlSum').innerHTML = '<div class="nt er" role="alert">' + esc(typeof e === 'string' ? e : 'Gagal memuat') + '</div>'; document.getElementById('dlBtn').disabled = true; } });
 }
 function dlTampil(r) {
 var d = S.dl, z = document.getElementById('dlSum'), pv = document.getElementById('dlPrev'), b = document.getElementById('dlBtn');
-if (!r.ok) { z.innerHTML = '<div class="nt er" role="alert">' + esc(r.error || 'Gagal memuat') + '</div>'; pv.innerHTML = ''; b.disabled = true; document.getElementById('dlNama').textContent = ''; return; }
+if (!r.ok) { z.innerHTML = '<div class="nt er" role="alert">' + esc(r.error || 'Gagal memuat') + '</div>'; pv.innerHTML = ''; dlBtnSet(true); document.getElementById('dlNama').textContent = ''; return; }
 var lbl = d.m === 'hari' ? tglL(d.a) : tglL(d.a) + ' sampai ' + tglL(dlAkhir());
 z.innerHTML = '<div class="card" style="background:var(--acs);box-shadow:none;margin:0"><div style="font-size:30px;line-height:36px;font-weight:800">' + nf(r.total) + ' <span style="font-size:16px;font-weight:700">DM</span></div><div class="sm" style="margin-top:2px">' + esc(lbl) + '</div><div class="sm" style="margin-top:6px"><b>' + nf(r.baru || 0) + '</b> akun baru dan <b>' + nf(r.lama || 0) + '</b> DM dari akun lama</div><div class="sm mut" style="margin-top:8px">Yang dicatat: DM dari <b>akun baru</b> dan DM <b>akun lama yang bertanya hal baru</b> (jeda lebih dari 12 jam), dengan ringkasan isi chat, produk, dan admin. Ucapan terima kasih dan balasan singkat tidak dihitung.</div></div>';
 pv.innerHTML = r.total ? '<div class="sm mut" style="margin:16px 0 2px;font-weight:700">Pratinjau (urut dari yang terbaru)</div><div style="border-top:1px solid var(--line)">' + r.terbaru.map(function (x) { return '<div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)"><div style="flex:0 0 62px"><span class="chip ok">' + esc(x.jam) + '</span><div class="sm mut" style="margin-top:2px">' + esc(tglS(x.tgl)) + '</div></div><div style="flex:1;min-width:0"><div class="b">' + esc(x.user) + ' ' + chip(x.jenis === 'Lama' ? 'Akun lama' : 'Akun baru', x.jenis === 'Lama' ? 'nu' : 'ok') + '</div><div class="sm" style="margin-top:2px;overflow-wrap:anywhere"><b>' + esc(x.ringkas || '') + '</b></div><div class="sm mut" style="overflow-wrap:anywhere">' + esc(x.isi || '(tanpa teks)') + '</div></div></div>'; }).join('') + '</div>' : '<div class="card empty" style="margin-top:14px">Tidak ada DM yang bertanya pada tanggal ini.</div>';
-b.disabled = !r.total; document.getElementById('dlNama').textContent = r.total ? 'Nama file: ' + dlNama() : '';
+dlBtnSet(!r.total); document.getElementById('dlNama').textContent = r.total ? 'Nama file: ' + dlNama() : '';
 document.getElementById('dlRet').textContent = 'Isi pesan yang lebih dari ' + (r.retensi || 90) + ' hari sudah dihapus otomatis dan tampil sebagai [dihapus].';
 }
+function dlBtnSet(mati) { ['dlBtn', 'dlBtn2'].forEach(function (id) { var e = document.getElementById(id); if (e) e.disabled = mati; }); }
 function dlNama() { var d = S.dl; return 'Laporan-DM_' + d.a + (d.m === 'hari' || dlAkhir() === d.a ? '' : '_sd_' + dlAkhir()) + '.pdf'; }
 function dlUnduh(nama, b64) {
 var bin = atob(b64), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
@@ -450,6 +460,10 @@ A.dlMode = function (el) { var d = S.dl; d.m = el.dataset.v; if (d.m === 'rentan
 A.dlPdf = function (el) {
 var d = S.dl; document.getElementById('dlMsg').textContent = ''; busy(el, true, 'Menyiapkan PDF…');
 call('apiLaporanDmPdf', d.a, dlAkhir(), d.ak).then(function (r) { busy(el, false); if (!r.ok) { var m = document.getElementById('dlMsg'); if (m) m.textContent = r.error || 'Gagal membuat PDF'; return; } dlUnduh(r.nama, r.b64); toast('PDF diunduh: ' + r.nama); }).catch(function (e) { busy(el, false); err(e); });
+};
+A.dlRingkas = function (el) {
+var d = S.dl; document.getElementById('dlMsg').textContent = ''; busy(el, true, 'Menyiapkan ringkasan…');
+call('apiLaporanDmRingkasPdf', d.a, dlAkhir(), d.ak).then(function (r) { busy(el, false); if (!r.ok) { var m = document.getElementById('dlMsg'); if (m) m.textContent = r.error || 'Gagal membuat PDF'; return; } dlUnduh(r.nama, r.b64); toast('PDF diunduh: ' + r.nama); if (r.peringatan && r.peringatan.length) { var rt = document.getElementById('dlRet'); if (rt) rt.textContent = 'Perhatian: ' + r.peringatan.join(' '); } }).catch(function (e) { busy(el, false); err(e); });
 };
 document.addEventListener('change', function (e) { var t = e.target, d = S.dl; if (!t || !d || !document.getElementById('dlSum')) return; if (t.id === 'dlA') { d.a = t.value; if (d.m === 'rentang' && (!d.b || d.b < d.a)) { d.b = d.a; var bb = document.getElementById('dlB'); if (bb) bb.value = d.b; } } else if (t.id === 'dlB') d.b = t.value; else if (t.id === 'dlAk') d.ak = t.value; else return; if (d.m === 'hari') d.b = d.a; dlMuat(); });
 function kInfo(k) {
@@ -612,6 +626,10 @@ var t = val('lapTeks'); if (!t.trim()) { $('#lMsg').textContent = 'Isi laporan k
 busy(el, true, 'Menyiapkan PDF…');
 call('apiLaporanPdf', S.lp.judul, t).then(function (r) { busy(el, false); if (!r.ok) { $('#lMsg').textContent = r.error || 'Gagal membuat PDF'; return; } dlUnduh(r.nama, r.b64); toast('PDF diunduh: ' + r.nama); }).catch(function (e) { busy(el, false); err(e); });
 };
+A.lapMgPdf = function (el) {
+var m = S.lap && S.lap.minggu; busy(el, true, 'Menyiapkan PDF…');
+call('apiLaporanMingguPdf', m).then(function (r) { busy(el, false); if (!r.ok) { toast(r.error || 'Gagal membuat PDF'); return; } dlUnduh(r.nama, r.b64); toast('PDF diunduh: ' + r.nama); }).catch(function (e) { busy(el, false); err(e); });
+};
 A.lapbuka = function (el) { lapSheet(el.dataset.j); };
 function lapDat(j) { return j === 'bulan' ? S.bul : j === 'dm' ? S.lap.dm : S.lap.sosmed; }
 function lapSheet(j) {
@@ -678,7 +696,7 @@ if (S.sh !== 'pengaturan') return; var b = S.b, a = akunUtama();
 var modes = [['BAYANGAN', 'Bayangan: hanya kategori'], ['DRAF', 'Draf: kategori dan draf balasan'], ['KIRIM', 'Kirim: balasan terkirim ke Instagram'], ['UJI', 'Uji: simulasi, tidak ada yang terkirim']];
 var akun = a ? '<div class="rw" style="border-top:0"><span class="av">' + esc(String(a.handle || a.nama || '?').charAt(0).toUpperCase()) + '</span><div class="g">' + t2('@' + String(a.handle || a.nama).replace('@', ''), 'Instagram') + '</div>' + (a.tokenDays == null ? '' : chip(a.tokenDays < 0 ? 'Token habis' : 'Token ' + a.tokenDays + ' hari', a.tokenDays <= 7 ? 'wn' : 'ok')) + '</div><button class="btn w" style="margin-top:8px" data-a="tokenBaru">Perbarui token</button>' : '<div class="empty">Akun Instagram belum diisi di tab Akun pada Sheet.</div>';
 sb('<h2 style="margin:0 0 4px">Akun Instagram</h2>' + akun + '<div style="margin-top:8px">' + sel('Mode kerja', 'stMode', modes, b.mode).replace('<select ', '<select data-ch="setMode" ') + '</div><div style="display:flex;align-items:center;gap:12px;margin-top:16px;min-height:48px"><div class="g" style="flex:1"><div class="b">Posting otomatis</div><div class="sm mut">Terbit sesuai jadwal. Draf tidak pernah terbit sendiri.</div></div><button class="sw' + (b.autoPost ? ' on' : '') + '" data-a="setAuto" role="switch" aria-checked="' + !!b.autoPost + '" aria-label="Posting otomatis"></button></div>' +
-'' + dmSet() + infoSet() + '<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v30</p>');
+'' + dmSet() + infoSet() + '<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v36</p>');
 }
 document.addEventListener('change', function (e) { var t = e.target; if (t.dataset && t.dataset.ch && A[t.dataset.ch]) A[t.dataset.ch](t); });
 A.setMode = function (t) { call('apiSetSetting', 'Mode', t.value).then(function (r) { if (r.ok) { S.b.mode = r.value; banner(); toast('Mode: ' + r.value); cacheSave(); } else { toast(r.error); renderSet(); } }).catch(function (e) { err(e); renderSet(); }); };
@@ -691,7 +709,7 @@ A.keluar = logout;
 $('#lgo').addEventListener('click', doLogin);
 $('#lkey').addEventListener('keydown', function (e) { if (e.key === 'Enter') doLogin(); });
 $('#ltg').addEventListener('click', function () { var i = $('#lkey'); i.type = i.type === 'password' ? 'text' : 'password'; this.textContent = i.type === 'password' ? 'Tampilkan kode' : 'Sembunyikan kode'; });
-(function () { var h = (location.hash || '').slice(2); if (['beranda', 'inbox', 'konten', 'laporan'].indexOf(h) >= 0) S.tab = h; })();
+(function () { var h = (location.hash || '').slice(2); if (['beranda', 'inbox', 'konten', 'laporan', 'hariini', 'agenda'].indexOf(h) >= 0) S.tab = h; })();
 shell(); boot();
 function akunUtama() {
 var l = ((S.b && S.b.akun) || []).filter(function (a) { return a.platform !== 'TikTok'; });
@@ -725,6 +743,7 @@ return o;
 function dmCharts(dm, bulan) {
 var r = dm.ringkas, hr = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'], mx = Math.max.apply(null, r.perHari), jd = bulan ? 'DM menurut hari dalam minggu' : 'DM per hari', o = chH(jd) + chBar(r.perHari.map(function (v, i) { return { l: hr[i], v: v, on: v === mx && v > 0 }; }), jd);
 if (r.topik && r.topik.length) o += chH('Topik pesan terbanyak') + chHB(r.topik.slice(0, 6).map(function (x) { return { l: x.nama + ' · ' + String(x.persen).replace('.', ',') + '%', v: x.jumlah }; })) + '<div class="sm mut" style="margin-top:6px">Dikelompokkan dari kata kunci di pesan pelanggan. Satu percakapan bisa masuk lebih dari satu topik.</div>';
+if (r.rincian && r.rincian.masuk) o += chH('Rincian semua DM masuk') + chHB([{ l: 'Akun baru dan tanya produk', v: r.rincian.penting || 0 }, { l: 'Foto atau postingan', v: r.rincian.lampiran || 0 }, { l: 'Ringan (terima kasih, reaksi)', v: r.rincian.ringan || 0 }]) + '<div class="sm mut" style="margin-top:6px">Semua DM tercatat: ' + nf(r.rincian.masuk) + '. Yang butuh dibalas hanya yang bertanya atau akun baru.</div>';
 if (r.kategori && r.kategori.length) o += chH('Kategori DM') + chHB(r.kategori.slice(0, 5).map(function (x) { return { l: x.nama, v: x.jumlah }; }));
 return o;
 }
@@ -787,7 +806,7 @@ var ags = (h.agenda || []).map(function (a) { var w = a.sisa < 0 ? chip('Berlang
 var P = h.performa, perf;
 if (P) {
 var tr = (P.tren || []).map(function (x, i, a) { return { l: x.l, v: x.v, on: i === a.length - 1 }; });
-perf = '<div class="card"><div class="hd"><h2>Minggu ini</h2><button class="btn t sm2" data-a="nav" data-t="laporan">Laporan</button></div><div class="sm mut">' + esc(P.label) + '</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0 2px"><span class="big">' + kc(P.tayangan) + '</span><span class="sm mut">tayangan</span>' + dch(P.delta) + '</div>' + (tr.length > 1 ? chBar(tr, 'Tayangan per minggu') : '') +
+perf = '<div class="card"><div class="hd"><h2>Minggu ini</h2><button class="btn t sm2" data-a="nav" data-t="laporan">Laporan</button></div><div class="sm mut">' + esc(P.label) + '</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0 2px"><span class="big">' + kc(P.tayangan) + '</span><span class="sm mut">tayangan</span>' + dch(P.delta) + '</div>' +
 '<div class="g3" style="margin-top:12px"><div class="kp"><div class="sm mut">Dijangkau</div><div class="b">' + kc(P.jangkau) + '</div></div><div class="kp"><div class="sm mut">Interaksi</div><div class="b">' + kc(P.interaksi) + '</div></div><div class="kp"><div class="sm mut">Pengikut</div><div class="b">' + (P.bersih == null ? '-' : nfs(P.bersih)) + '</div></div></div></div>';
 } else perf = '<div class="card empty"><p class="b">Minggu ini</p><p>Isi data insight mingguan untuk melihat performa akun di sini.</p><button class="btn p" data-a="insight">Isi data insight</button></div>';
 var rings = '<svg class="rings" viewBox="0 0 200 200" aria-hidden="true" fill="none" stroke="#fff" stroke-width="3"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="56"/><circle cx="100" cy="100" r="82"/><circle cx="100" cy="100" r="108"/></svg>';
@@ -803,9 +822,51 @@ var dmCard = '<section class="hero2 mini">' + rings + '<h2 class="hl">' + esc(dj
 var hariIni = '<div class="card"><div class="hd"><h2>Hari ini</h2><button class="btn t sm2" data-a="bukaJadwal">Jadwal</button></div><p class="sm" style="margin:0 0 10px">' + esc(bt) + '</p><div class="sm mut" style="margin-bottom:6px">Ringkasan ' + BLNF[Number(t0.slice(5, 7)) - 1] + ' · ' + tay + '/' + mk.length + ' tayang</div><div class="g3"><div class="kp"><div class="sm mut">Tayang</div><div class="b">' + tay + '</div></div><div class="kp"><div class="sm mut">Terjadwal</div><div class="b">' + trj + '</div></div><div class="kp"><div class="sm mut">Draf</div><div class="b">' + drf + '</div></div></div></div>';
 var perluCard = h.perlu.length ? '<div class="card"><div class="hd"><h2>Perlu dilakukan</h2></div>' + perlu + '</div>' : '';
 return '<header class="gh"><img class="avt" src="logo-320.webp" alt="PinaraK" width="52" height="52"><div class="g"><div class="sm mut">' + tglL(t0) + '</div><h1 class="ell">Monggo pinarak, Pina</h1></div><button class="x gl dsk" data-a="tambah" aria-label="Tambah">' + ic('plus') + '</button><button class="x gl" data-a="pengaturan" aria-label="Pengaturan">' + ic('gear') + '</button></header>' +
-'<div class="cols"><div class="wrap">' + statusRow() + perluCard + dmCard + hariIni + dpStrip(hDays(), S.hDay, 'hari') + '<div id="hsch">' + hSched() + '</div></div>' +
-'<div class="wrap">' + perf + '<div class="card"><div class="hd"><h2>Agenda</h2><button class="btn t sm2" data-a="agendaBaru">' + ic('plus') + 'Agenda</button></div><div class="sm mut" style="margin-bottom:4px">14 hari ke depan</div>' + ags + '</div></div></div>';
+'<div class="cols"><div class="wrap">' + statusRow() + '<div class="g2"><button class="t4 c3" style="min-height:84px" data-a="nav" data-t="hariini"><span class="b">Hari ini</span><span class="sm">Balas DM dan jadwal</span></button><button class="t4 c2" style="min-height:84px" data-a="nav" data-t="agenda"><span class="b">Agenda</span><span class="sm">Minggu dan acara</span></button></div>' + perluCard + dmCard + hariIni + dpStrip(hDays(), S.hDay, 'hari') + '<div id="hsch">' + hSched() + '</div></div>' +
+'<div class="wrap">' + perf + dmRingkasKartu(false) + '<div class="card"><div class="hd"><h2>Agenda</h2><button class="btn t sm2" data-a="agendaBaru">' + ic('plus') + 'Agenda</button></div><div class="sm mut" style="margin-bottom:4px">14 hari ke depan</div>' + ags + '</div></div></div>';
 }
+
+/* ---------- Hari ini (asisten harian) dan Agenda ---------- */
+function sisaMnt(x) { var b = x.batas ? new Date(x.batas).getTime() : 0; return b ? Math.round((b - Date.now()) / 60000) : null; }
+function sisaTxt(m) { return m <= 0 ? 'lewat batas' : 'sisa ' + (m < 60 ? m + ' mnt' : Math.floor(m / 60) + ' jam'); }
+function sisaKls(m) { return m == null ? 'nu' : m <= 0 ? 'er' : m < 360 ? 'wn' : 'ok'; }
+function dmRow(x) {
+var m = sisaMnt(x);
+return rwb('data-a="dm" data-id="' + esc(x.id) + '" style="align-items:flex-start"', '<span class="av">' + esc((x.user || '?').charAt(0).toUpperCase()) + '</span>',
+'<span style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="b ell">@' + esc(x.user) + '</span>' + (m == null ? '' : chip(sisaTxt(m), sisaKls(m))) + '</span><span class="ell mut" style="display:block">' + esc(prev(x)) + '</span><span style="display:flex;gap:6px;margin-top:4px;align-items:center">' + mark(x) + '<span class="sm mut ell">' + esc(x.kategori) + '</span></span>', '', 'dmc');
+}
+function vHariIni() {
+var h = S.home; if (!h || !S.th) return '<div class="hd"><h1>Hari ini</h1></div>' + skel(4);
+var t0 = today(), t1 = addD(t0, 1), srt = function (a, b) { var p = sisaMnt(a), q = sisaMnt(b); return (p == null ? 99999 : p) - (q == null ? 99999 : q); };
+var w = S.th.filter(isW).sort(srt), mend = w.filter(function (x) { var m = sisaMnt(x); return m != null && m > 0 && m < 360; }).length, lwt = w.filter(function (x) { var m = sisaMnt(x); return m != null && m <= 0; }).length;
+var fu = S.th.filter(function (x) { return x.tindak && !isW(x); }).slice(0, 5);
+var sub = !w.length ? 'Semua DM sudah dibalas.' : (mend ? mend + ' DM batas balasnya kurang dari 6 jam. ' : '') + (lwt ? lwt + ' sudah lewat batas 24 jam.' : (mend ? '' : 'Urut dari batas balas yang paling dekat.'));
+var hero = '<section class="hero2 mini"><h2 class="hl">' + (w.length ? w.length + ' DM menunggu' : 'Inbox bersih') + '</h2><p class="hs2">' + esc(sub) + '</p><button class="hbtn" data-a="nav" data-t="inbox"><span class="ar">' + ic('chev') + '</span>Buka Inbox</button></section>';
+var balas = '<div class="card"><div class="hd"><h2>Balas DM</h2><button class="btn t sm2" data-a="jawaban">' + ic('book') + 'Jawaban</button></div><div class="sm mut" style="margin-bottom:4px">Batas balas 24 jam sejak pesan terakhir pelanggan</div>' + (w.slice(0, 8).map(dmRow).join('') || '<div class="empty">Tidak ada DM yang menunggu balasan.</div>') + (w.length > 8 ? '<button class="btn t w" data-a="nav" data-t="inbox">Lihat ' + (w.length - 8) + ' lainnya</button>' : '') + '</div>';
+var PI = { dm: 'inbox', konten: 'cal', rencana: 'cal', laporan: 'chart', catatan: 'book', token: 'gear' };
+var perlu = (h.perlu || []).length ? '<div class="card"><div class="hd"><h2>Perlu dilakukan</h2></div>' + h.perlu.map(function (p) { return rwb('data-a="perlu" data-k="' + esc(p.aksi) + '" data-m="' + esc(p.minggu || '') + '"', '<span class="ib">' + ic(PI[p.tipe] || 'check') + '</span>', '<span class="b">' + esc(p.teks) + '</span>', '<span class="mut">' + ic('chev') + '</span>'); }).join('') + '</div>' : '';
+var follow = fu.length ? '<div class="card"><div class="hd"><h2>Perlu di-follow up</h2></div>' + fu.map(dmRow).join('') + '</div>' : '';
+var jadwal = '<div class="card"><div class="hd"><h2>Jadwal hari ini</h2><button class="btn t sm2" data-a="nav" data-t="agenda">Agenda</button></div>' + tlHtml(hItems(t0), t0) + '</div>';
+var besok = '<div class="card"><div class="hd"><h2>Besok</h2></div><div class="sm mut">' + esc(tglL(t1)) + '</div>' + tlHtml(hItems(t1), t1) + '</div>';
+var wa = S.b && S.b.whatsapp ? '<div class="sm mut" style="text-align:center">Ringkasan harian dikirim ke WhatsApp pukul 17.00.</div>' : '';
+return '<div class="hd"><div><div class="sm mut">' + esc(tglL(t0)) + '</div><h1>Hari ini</h1></div></div><div class="cols"><div class="wrap">' + hero + balas + follow + '</div><div class="wrap">' + jadwal + besok + perlu + wa + '</div></div>';
+}
+function agRange(w) { var e = addD(w, 6), a = Number(w.slice(8)), b = Number(e.slice(8)), m1 = BLNF[Number(w.slice(5, 7)) - 1], m2 = BLNF[Number(e.slice(5, 7)) - 1]; return a + (m1 === m2 ? '' : ' ' + m1) + ' sampai ' + b + ' ' + m2 + ' ' + e.slice(0, 4); }
+function vAgenda() {
+var h = S.home; if (!h) return '<div class="hd"><h1>Agenda</h1></div>' + skel(3);
+var t0 = today(); if (!S.agW) S.agW = monOf(t0);
+var ak = addD(S.agW, 6); if (!S.agD || S.agD < S.agW || S.agD > ak) S.agD = (t0 >= S.agW && t0 <= ak) ? t0 : S.agW;
+var days = []; for (var i = 0; i < 7; i++) days.push(addD(S.agW, i));
+var nPost = 0, nAg = 0, kosong = 0; days.forEach(function (d) { var l = hItems(d); if (!l.length) kosong++; l.forEach(function (x) { if (x.a === 'kon') nPost++; else nAg++; }); });
+var nav = '<div class="card" style="padding:12px 16px"><div class="hd"><button class="x" data-a="agGeser" data-n="-7" aria-label="Minggu sebelumnya">' + ic('back') + '</button><h2>' + esc(agRange(S.agW)) + '</h2><button class="x" data-a="agGeser" data-n="7" aria-label="Minggu berikutnya">' + ic('chev') + '</button></div>' + dpStrip(days, S.agD, 'agHari').replace('hs dps', 'ag7') + '</div>';
+var tiles = '<div class="g3"><div class="kp"><div class="sm mut">Posting</div><div class="b">' + nPost + '</div></div><div class="kp"><div class="sm mut">Agenda</div><div class="b">' + nAg + '</div></div><div class="kp"><div class="sm mut">Hari kosong</div><div class="b">' + kosong + '</div></div></div>';
+var hari = '<div class="card"><div class="hd"><h2>' + (S.agD === t0 ? 'Hari ini' : esc(HRF[dowOf(S.agD)])) + '</h2><span class="sm mut">' + esc(tglL(S.agD)) + '</span></div>' + tlHtml(hItems(S.agD), S.agD) + '</div>';
+var ags = (h.agenda || []).map(function (a) { var w = a.sisa < 0 ? chip('Berlangsung', 'wn') : a.sisa === 0 ? chip('Hari ini', 'wn') : chip('H-' + a.sisa); return rwb('data-a="agenda" data-id="' + esc(a.id) + '"', dtTile(a.mulai), t2(a.judul, [a.jenis, a.jam, a.lokasi].filter(String).join(' · ')), w); }).join('') || '<div class="empty">Belum ada agenda 14 hari ke depan.</div>';
+var next = '<div class="card"><div class="hd"><h2>Agenda mendatang</h2><button class="btn t sm2" data-a="agendaBaru">' + ic('plus') + 'Agenda</button></div><div class="sm mut" style="margin-bottom:4px">14 hari ke depan. Jadwal posting masuk otomatis ke kalender di atas.</div>' + ags + '</div>';
+return '<div class="hd"><div><h1>Agenda</h1><div class="sm mut">Posting dan acara dalam satu kalender</div></div><button class="x gl" style="background:linear-gradient(135deg,var(--ac1),var(--ac2));color:var(--act)" data-a="agendaBaru" aria-label="Agenda baru">' + ic('plus') + '</button></div><div class="cols"><div class="wrap">' + nav + tiles + hari + '</div><div class="wrap">' + next + '</div></div>';
+}
+A.agHari = function (el) { S.agD = el.dataset.d; render(); };
+A.agGeser = function (el) { S.agW = addD(S.agW || monOf(today()), Number(el.dataset.n) || 0); S.agD = ''; render(); };
 function weekBoard(days) {
 var t0 = today();
 return '<div class="wkb">' + days.map(function (d) { var l = hItems(d).filter(function (x) { return x.a === 'kon'; }); return '<div class="wkc' + (d === t0 ? ' now' : '') + '"><div class="wkh"><b>' + HR[dowOf(d)] + '</b><span>' + Number(d.slice(8)) + '</span></div>' + l.map(function (x) { return '<button class="wki" data-a="kon" data-id="' + esc(x.id) + '"><span class="wt">' + esc(x.jam || '—') + '</span><span class="wj">' + esc(x.judul) + '</span><span class="ws">' + esc(x.sub) + '</span></button>'; }).join('') + '<button class="wka" data-a="kon" data-id="" data-d="' + d + '" aria-label="Tambah konten ' + tglS(d) + '">' + ic('plus') + ' Tambah</button></div>'; }).join('') + '</div>';
