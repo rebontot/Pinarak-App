@@ -189,7 +189,7 @@ shell(); render(); window.scrollTo(0, 0); load(tab);
 function render() {
 banner(); var v = $('#view');
 if (S.err) { splashOff(); v.innerHTML = '<div class="card empty"><p class="b">Tidak bisa membuka app</p><p>' + esc(S.err) + '</p><button class="btn p" data-a="muat">Coba lagi</button></div>'; return; }
-v.innerHTML = ({ beranda: vHome, inbox: vInbox, konten: vKonten, laporan: vLaporan, hariini: vHariIni, agenda: vAgenda })[S.tab]();
+try { v.innerHTML = ({ beranda: vHome, inbox: vInbox, konten: vKonten, laporan: vLaporan, hariini: vHariIni, agenda: vAgenda })[S.tab](); } catch (e) { try { console.error('render', e); } catch (x) { } splashOff(); v.innerHTML = '<div class="card empty"><p class="b">Halaman ini gagal dimuat</p><p class="sm mut">' + esc(e && e.message) + '</p><button class="btn p" data-a="muat">Coba lagi</button></div>'; }
 }
 function load(tab) {
 if (tab === 'konten' && S.sub.konten === 'rencana' && !S.rc) loadRencana(S.rcMinggu);
@@ -929,7 +929,8 @@ function uiPanel(title, sub, link, act, body) { return '<section class="udk"><di
 function uiBox(title, extra, body) { return '<div class="ubx"><div class="ubh"><span>' + esc(title) + '</span>' + (extra ? '<em>' + extra + '</em>' : '') + '</div>' + body + '</div>'; }
 function uiDelta(d) { return d == null ? '' : '<small class="' + (d >= 0 ? 'up' : 'dn') + '">' + (d >= 0 ? '+' : '−') + String(Math.abs(Math.round(d))) + '%</small>'; }
 function uiSeries(key) { var t = (S.home && S.home.performa && S.home.performa.tren) || []; return t.map(function (x) { return x[key]; }); }
-function uiPanelIg() {
+function uiGuard(f, nama) { return function () { try { return f.apply(null, arguments); } catch (e) { try { console.error(nama, e); } catch (x) { } return '<div class="card empty"><p class="b">' + nama + ' belum bisa ditampilkan</p><p class="sm mut">' + esc(e && e.message) + '</p></div>'; } }; }
+function uiPanelIg_() {
 var L = S.lap, so = L && L.sosmed, P = S.home && S.home.performa, lab = (so && so.ada ? so.label : P && P.label) || '', k = {};
 if (so && so.ada) so.kpi.forEach(function (x) { k[x.label] = x; });
 var vV = so && so.ada ? k['Tayangan'] : P ? { nilai: P.tayangan, delta: P.delta } : null; if (!vV) return '';
@@ -943,7 +944,7 @@ var pj = so && so.ada && so.perJenis ? so.perJenis.filter(function (x) { return 
 if (pj.length) { var tot = pj.reduce(function (a, x) { return a + x.tayangan; }, 0), it = pj.map(function (x, i) { return { l: x.jenis, v: x.tayangan, c: UIC[i % 4] }; }); fm = uiBox('Tayangan per jenis konten', '', '<div class="udr">' + uiDonut(it, kc(tot), 'tayangan') + uiLegend(it, tot) + '</div>'); }
 return uiPanel('Ringkasan Instagram', lab, 'Laporan lengkap', 'laporan', '<div class="ugd"><div class="ug2">' + tiles + '</div>' + grafik + '</div>' + fm);
 }
-function uiPanelDm(penuh) {
+function uiPanelDm_(penuh) {
 var L = S.lap, dm = L && L.dm; if (!dm || !dm.ada || !dm.ringkas) return '';
 var r = dm.ringkas, hr = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'], mx = Math.max.apply(null, r.perHari), pct = r.total ? Math.round(r.dibalas / r.total * 100) : 0;
 var tiles = '<div class="ug4">' + [['Akun baru', nf(r.total)], ['Sudah dibalas', pct + '%'], ['Median balas', r.median == null ? '-' : mnt(r.median)], ['DM lama (tanya)', nf(r.dmLama || 0)]].map(function (x, i) { return '<div class="utl"><span class="ut1">' + x[0] + '</span><span class="ut2"><b>' + x[1] + '</b></span></div>'; }).join('') + '</div>';
@@ -954,8 +955,10 @@ var jam = '', ja = r.jamArr; if (penuh && ja && ja.length === 24) jam = uiBox('D
 var pr = penuh && r.produk && r.produk.length ? uiBox('Produk paling ditanya', '', uiRows(r.produk.map(function (x) { return { l: x.nama, v: x.jumlah }; }), UIC[0])) : '';
 return uiPanel('Ringkasan DM', 'Akun baru dan yang bertanya (harga, produk, cara order) · ' + dm.label, penuh ? '' : 'Statistik lengkap di Inbox', 'inbox', tiles + '<div class="ug2c">' + b1 + b2 + '</div>' + rn + (penuh ? '<div class="ug2c">' + jam + pr + '</div>' : '') + (r.kesimpulan ? '<p class="uks">' + esc(r.kesimpulan) + '</p>' : ''));
 }
+var uiPanelIg = uiGuard(uiPanelIg_, 'Ringkasan Instagram'), uiPanelDm = uiGuard(uiPanelDm_, 'Ringkasan DM');
 function uiHero(cls, lbl, big, sub, vals, col) { return '<div class="uh ' + cls + '"><span class="ut1">' + esc(lbl) + '</span><b>' + big + '</b><span class="ush">' + sub + '</span><div class="uhs">' + uiSpark(vals, col, 120, 50) + '</div></div>'; }
-function vHome() {
+function vHome() { try { return vHomeBaru(); } catch (e) { try { console.error('vHome', e); } catch (x) { } var m = '<div class="card empty"><p class="b">Beranda baru gagal dimuat</p><p class="sm mut">' + esc(e && e.message) + '</p></div>'; try { return m + vHomeLama(); } catch (e2) { return m; } } }
+function vHomeBaru() {
 var h = S.home; if (!h) return skel(3);
 var t0 = today(), L = S.lap, dm = L && L.dm && L.dm.ada ? L.dm.ringkas : null, P = h.performa, dmT = (h.dm && h.dm.tunggu) || 0;
 var bl = t0.slice(0, 7), mk = (S.kn || []).filter(function (k) { return kDate(k).slice(0, 7) === bl && k.status !== 'Batal'; }), cn = function (l) { return mk.filter(function (k) { return l.indexOf(ns(k.status)) >= 0; }).length; }, tay = cn(['Tayang']);
