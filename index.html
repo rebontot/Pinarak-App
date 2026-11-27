@@ -6,7 +6,7 @@
 <title>PinaraK</title>
 <meta name="theme-color" content="#26CD7D">
 <meta name="description" content="PinaraK: asisten kerja sosial media">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://*.cdninstagram.com https://*.fbcdn.net https://drive.google.com https://*.googleusercontent.com; connect-src https://script.google.com https://*.googleusercontent.com https://api.cloudinary.com; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com; connect-src https://script.google.com https://*.googleusercontent.com https://api.cloudinary.com; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="PinaraK">
@@ -98,7 +98,7 @@ details.ibx{display:none}
  <p id="ltg" class="b" style="color:var(--acd);cursor:pointer;margin:10px 0 0;min-height:24px" role="button" tabindex="0">Tampilkan kode</p>
  <p id="lerr" style="color:var(--ert);min-height:22px;margin:6px 0" role="alert"></p>
  <button id="lgo" class="btn p w" type="button">Masuk</button>
- <p class="sm mut" style="margin-top:14px">PinaraK web v46</p>
+ <p class="sm mut" style="margin-top:14px">PinaraK web v43</p>
 </div></div>
 <script src="config.js"></script>
 <script>/*alamat-bawaan*/var c=window.PINARAK_CONFIG=window.PINARAK_CONFIG||{};if(String(c.API||'').indexOf('https://script.google.com/')!==0)c.API='https://script.google.com/macros/s/AKfycbxMFoaGQGowvAyEzndkbGzvRsCXRJsS3b9tyHGwnCeIa2KmO95YnwBV9ER81F6N83JjVQ/exec';</script>
@@ -264,16 +264,6 @@ function rwb(attr, left, mid, right, cls) { return '<button class="rw' + (cls ? 
 function t2(a, b) { return '<span class="b ell" style="display:block">' + esc(a) + '</span>' + (b ? '<span class="sm mut ell" style="display:block">' + esc(b) + '</span>' : ''); }
 function dtTile(s) { return '<span class="dt"><span>' + HR[dowOf(s)] + '</span><b>' + Number(s.slice(8)) + '</b></span>'; }
 function pf(p) { p = String(p || ''); return /Reels/.test(p) ? 'Reels' : /Story/.test(p) ? 'Story' : /TikTok/.test(p) ? 'TikTok' : /Feed/.test(p) ? 'Feed' : p; }
-function lampHtml(m) { // lampiran DM: foto tampil langsung, lainnya jadi tautan
-  var lp = String(m.lampiran || ''); if (!lp) return '';
-  var i = lp.indexOf(' | '), lab = i < 0 ? lp : lp.slice(0, i), u = i < 0 ? '' : lp.slice(i + 3).trim(), ok = /^https:\/\//.test(u);
-  var cap = '<div class="sm" style="opacity:.8;margin-top:4px">' + esc(lab) + '</div>';
-  if (ok && /^(Foto|Menyebut kamu di story|Membalas story kamu)/.test(lab)) return cap + '<a href="' + esc(u) + '" target="_blank" rel="noopener"><img src="' + esc(u) + '" alt="" loading="lazy" style="display:block;max-width:100%;max-height:260px;border-radius:12px;margin-top:6px" onerror="this.style.display=\'none\'"></a><a class="sm" href="' + esc(u) + '" target="_blank" rel="noopener">Buka</a>';
-  if (ok) return cap + '<a class="sm" href="' + esc(u) + '" target="_blank" rel="noopener">Buka</a>';
-  if (/story/i.test(lab)) return cap + '<div class="sm" style="opacity:.8">Instagram tidak memberi gambar story ini (hanya tersedia 24 jam). Lihat langsung di Instagram.</div>';
-  if (/^(Foto|Video|Lampiran)/.test(lab)) return cap + '<div class="sm" style="opacity:.8">Isi tidak bisa ditampilkan dari app. Lihat langsung di Instagram.</div>';
-  return cap;
-}
 function prev(x) { var m = x.msgs || [], c = m.filter(function (y) { return y.k === 'c'; }).pop() || m[m.length - 1]; return c ? c.t : ''; }
 function mark(x) {
 if (x.status === 'Gagal kirim') return chip('Gagal kirim', 'er');
@@ -429,7 +419,7 @@ function renderDm() {
 var D = S.dm; if (!D) return; var x = findDm(D.id); if (!x) return;
 var s = sisaJendela(x), win = s === null ? '' : s <= 0 ? chip('Jendela balas habis', 'er') : chip('Sisa ' + (s > 36e5 ? Math.floor(s / 36e5) + ' jam' : Math.max(1, Math.round(s / 6e4)) + ' mnt'), s < 3 * 36e5 ? 'wn' : 'nu');
 var head = '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">' + chip(akunNama(x.akun)) + (x.kategori ? chip(x.kategori) : '') + (x.produk ? chip(x.produk) : '') + win + '</div>';
-var chat = '<div id="chat" style="display:flex;flex-direction:column;gap:8px;max-height:34vh;overflow:auto;padding:2px 0 8px">' + ((x.msgs || []).map(function (m) { return '<div class="bub ' + m.k + '">' + esc((m.tx !== undefined ? m.tx : m.t) || (m.lampiran ? '' : '(' + m.tipe + ')')) + lampHtml(m) + (m.w ? '<span class="bt">' + jamLokal(m.w) + '</span>' : '') + '</div>'; }).join('') || '<div class="empty">Belum ada pesan.</div>') + '</div>';
+var chat = '<div id="chat" style="display:flex;flex-direction:column;gap:8px;max-height:34vh;overflow:auto;padding:2px 0 8px">' + ((x.msgs || []).map(function (m) { return '<div class="bub ' + m.k + '">' + esc(m.t || '(' + m.tipe + ')') + (m.w ? '<span class="bt">' + jamLokal(m.w) + '</span>' : '') + '</div>'; }).join('') || '<div class="empty">Belum ada pesan.</div>') + '</div>';
 var can = canSendDm(x), why = !isW(x) ? '' : !S.b ? '' : S.offline ? 'Tidak ada internet, mengirim dinonaktifkan.' : (s !== null && s <= 0) ? 'Jendela balas 24 jam sudah habis. Balas langsung di Instagram.' : (S.b.mode !== 'KIRIM' && S.b.mode !== 'UJI') ? 'Mode ' + S.b.mode + ': balasan tidak dikirim dari app. Salin balasan lalu balas di Instagram, atau ubah Mode di Pengaturan.' : '';
 var dock = '', pct = Math.round((x.keyakinan || 0) * 100), m = D.mode;
 var more = '<button class="btn t w" data-a="dmMenu">' + ic('dots') + 'Opsi lain</button>';
@@ -753,7 +743,7 @@ if (S.sh !== 'pengaturan') return; var b = S.b, a = akunUtama();
 var modes = [['BAYANGAN', 'Bayangan: hanya kategori'], ['DRAF', 'Draf: kategori dan draf balasan'], ['KIRIM', 'Kirim: balasan terkirim ke Instagram'], ['UJI', 'Uji: simulasi, tidak ada yang terkirim']];
 var akun = a ? '<div class="rw" style="border-top:0"><span class="av">' + esc(String(a.handle || a.nama || '?').charAt(0).toUpperCase()) + '</span><div class="g">' + t2('@' + String(a.handle || a.nama).replace('@', ''), 'Instagram') + '</div>' + (a.tokenDays == null ? '' : chip(a.tokenDays < 0 ? 'Token habis' : 'Token ' + a.tokenDays + ' hari', a.tokenDays <= 7 ? 'wn' : 'ok')) + '</div><button class="btn w" style="margin-top:8px" data-a="tokenBaru">Perbarui token</button>' : '<div class="empty">Akun Instagram belum diisi di tab Akun pada Sheet.</div>';
 sb('<h2 style="margin:0 0 4px">Akun Instagram</h2>' + akun + '<div style="margin-top:8px">' + sel('Mode kerja', 'stMode', modes, b.mode).replace('<select ', '<select data-ch="setMode" ') + '</div><div style="display:flex;align-items:center;gap:12px;margin-top:16px;min-height:48px"><div class="g" style="flex:1"><div class="b">Posting otomatis</div><div class="sm mut">Terbit sesuai jadwal. Draf tidak pernah terbit sendiri.</div></div><button class="sw' + (b.autoPost ? ' on' : '') + '" data-a="setAuto" role="switch" aria-checked="' + !!b.autoPost + '" aria-label="Posting otomatis"></button></div>' +
-'' + dmSet() + infoSet() + '<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v46</p>');
+'' + dmSet() + infoSet() + '<button class="btn w" style="margin-top:20px" data-a="keluar">Keluar dari perangkat ini</button><p class="sm mut" style="margin-top:12px">PinaraK web v43</p>');
 }
 document.addEventListener('change', function (e) { var t = e.target; if (t.dataset && t.dataset.ch && A[t.dataset.ch]) A[t.dataset.ch](t); });
 A.setMode = function (t) { call('apiSetSetting', 'Mode', t.value).then(function (r) { if (r.ok) { S.b.mode = r.value; banner(); toast('Mode: ' + r.value); cacheSave(); } else { toast(r.error); renderSet(); } }).catch(function (e) { err(e); renderSet(); }); };
@@ -982,7 +972,7 @@ function ihHariPendek(t) { var d = new Date(t + 'T12:00:00+07:00'); return HR[d.
 function ihPanelData(mulai, akhir) { // kembalikan hari-hari berisi untuk satu rentang, atau null bila kurang dari 3 hari
 var l = ihRentang(mulai, akhir).filter(function (x) { return x.v != null || x.j != null; }); return l.length >= 3 ? l : null;
 }
-function uiPanelIgLama_() {
+function uiPanelIg_() {
 var L = S.lap, so = L && L.sosmed, P = S.home && S.home.performa, lab = (so && so.ada ? so.label : P && P.label) || '', k = {};
 var ihA = S.tab === 'laporan' && L && L.minggu ? L.minggu : addD(today(), -7), ihB = S.tab === 'laporan' && L && L.minggu ? addD(L.minggu, 6) : addD(today(), -1), ih = ihPanelData(ihA, ihB);
 if (so && so.ada) so.kpi.forEach(function (x) { k[x.label] = x; });
@@ -998,36 +988,6 @@ var bg = ih && ih.some(function (x) { return x.bersih != null; }) ? uiBox('Pengi
 var pj = so && so.ada && so.perJenis ? so.perJenis.filter(function (x) { return x.tayangan; }) : [], fm = '';
 if (pj.length) { var tot = pj.reduce(function (a, x) { return a + x.tayangan; }, 0), it = pj.map(function (x, i) { return { l: x.jenis, v: x.tayangan, c: UIC[i % 4] }; }); fm = uiBox('Tayangan per jenis konten', '', '<div class="udr">' + uiDonut(it, kc(tot), 'tayangan') + uiLegend(it, tot) + '</div>'); }
 return uiPanel('Ringkasan Instagram', lab, 'Laporan lengkap', 'laporan', '<div class="ugd"><div class="ug2">' + tiles + '</div>' + grafik + '</div>' + bg + fm);
-}
-var RG_PILIH = [[7, '7 hari'], [14, '14 hari'], [30, '30 hari'], [90, '90 hari'], [365, '12 bulan']];
-function rgHari() { var h = S.rgHari; if (!h) { try { h = Number(localStorage.getItem('pk_rg')) || 7; } catch (e) { h = 7; } } return [7, 14, 30, 90, 365].indexOf(h) >= 0 ? h : 7; }
-function loadRg(h) { S.rgData = S.rgData || {}; S.rgBusy = S.rgBusy || {}; if (S.rgBusy[h]) return; S.rgBusy[h] = true; call('apiRingkasRentang', h).then(function (r) { S.rgBusy[h] = false; S.rgData[h] = r && r.ok === false ? { ada: false, galat: r.error || 'gagal' } : r; if (S.tab === 'beranda' && !S.sheetBusy()) render(); }).catch(function () { S.rgBusy[h] = false; S.rgData[h] = { ada: false, galat: 'gagal' }; if (S.tab === 'beranda' && !S.sheetBusy()) render(); }); }
-A.rgPilih = function (el) { var h = Number(el.dataset.s); S.rgHari = h; try { localStorage.setItem('pk_rg', String(h)); } catch (e) { } S.rgData = S.rgData || {}; if (!S.rgData[h]) loadRg(h); render(); };
-function rgChips() { var h = rgHari(); return '<div class="seg" role="tablist" style="margin:0 0 12px;overflow:auto">' + RG_PILIH.map(function (i) { return '<button class="' + (h === i[0] ? 'on' : '') + '" data-a="rgPilih" data-s="' + i[0] + '">' + i[1] + '</button>'; }).join('') + '</div>'; }
-function rgLabelSeri(R) { var n = R.seri.length; return R.seri.map(function (x, i) { if (R.bulanan) return BLN[Number(x.t.slice(5, 7)) - 1].slice(0, 3); if (R.hari <= 14) return ihHariPendek(x.t); return (i % 7 === 0 || i === n - 1) ? Number(x.t.slice(8)) + '/' + Number(x.t.slice(5, 7)) : ''; }); }
-function uiPanelRg_(R, chips) {
-var N = R.nilai || {}, D = R.delta || {}, sr = function (k) { return R.seri.map(function (x) { return x[k]; }); }, lb = rgLabelSeri(R), tiles = '';
-tiles += uiTile('Tayangan', kc(N.tayangan), uiDelta(D.tayangan), sr('v'), UIC[0]);
-tiles += uiTile('Dijangkau', kc(N.jangkau), uiDelta(D.jangkau), sr('j'), UIC[2]);
-tiles += uiTile('Interaksi', kc(N.interaksi), uiDelta(D.interaksi), sr('i'), UIC[1]);
-tiles += uiTile('Pengikut bersih', N.bersih == null ? '-' : nfs(N.bersih), '', sr('b'), UIC[3]);
-var tadaV = R.seri.some(function (x) { return x.v != null; });
-var hg = tadaV ? uiBox('Tayangan dan jangkauan ' + (R.bulanan ? 'per bulan' : 'per hari'), '<span class="ulgd"><i style="background:' + UIC[0] + '"></i>Tayangan<i style="background:' + UIC[2] + '"></i>Dijangkau</span>', '<div class="uar">' + uiArea([{ v: sr('v'), c: UIC[0] }, { v: sr('j'), c: UIC[2] }], lb, 150) + '</div>') : '';
-var bg = R.seri.some(function (x) { return x.b != null; }) ? uiBox('Pengikut bersih per hari', '<span class="sm">baru dikurangi berhenti</span>', uiBars(R.seri.map(function (x) { return x.b == null ? 0 : x.b; }), lb, -1)) : '';
-var cat = [];
-if (R.sumber === 'catatan') cat.push('Dijumlah dari catatan harian. Dijangkau dijumlah per hari, jadi bisa lebih besar dari angka unik di Instagram.');
-if (R.cakupan && R.cakupan.ada < R.cakupan.dari && R.sumber === 'catatan') cat.push('Catatan harian baru terisi ' + R.cakupan.ada + ' dari ' + R.cakupan.dari + ' hari. Sisanya terisi otomatis tiap jam.');
-if (!R.prev) cat.push('Perbandingan dengan periode sebelumnya belum tersedia.');
-if (R.hari > 30 && N.bersih != null) cat.push('Pengikut bersih hanya dari hari yang tercatat (Instagram menyimpannya 30 hari).');
-return uiPanel('Ringkasan Instagram', R.label + ' · sampai kemarin', 'Laporan lengkap', 'laporan', chips + '<div class="ugd"><div class="ug2">' + tiles + '</div>' + hg + '</div>' + bg + (cat.length ? '<p class="sm mut" style="margin:8px 4px 0">' + esc(cat.join(' ')) + '</p>' : ''));
-}
-function uiPanelIg_() {
-if (S.tab !== 'beranda') return uiPanelIgLama_();
-var h = rgHari(), R = S.rgData && S.rgData[h], chips = rgChips();
-if (!R) { if (!S.rgBusy || !S.rgBusy[h]) loadRg(h); return uiPanel('Ringkasan Instagram', 'Memuat…', '', 'laporan', chips + '<div class="empty">Memuat data Instagram…</div>'); }
-if (R.ada) return uiPanelRg_(R, chips);
-var msg = R.sheetMinim ? 'Data ' + RG_PILIH.filter(function (x) { return x[0] === h; })[0][1] + ' sedang diisi bertahap (terisi ' + (R.cakupan ? R.cakupan.ada : 0) + ' dari ' + h + ' hari). Coba lagi nanti, atau pakai 7 sampai 30 hari.' : R.galat ? 'Data belum bisa dimuat. Coba lagi sebentar lagi.' : 'Akun Instagram belum terhubung.';
-return uiPanel('Ringkasan Instagram', R.label || '', '', 'laporan', chips + '<div class="empty">' + esc(msg) + '</div>');
 }
 function uiPanelDm_(penuh, src) {
 var L = S.lap, dm = src || (L && L.dm); if (!dm || !dm.ada || !dm.ringkas) return '';
@@ -1058,14 +1018,14 @@ function uiHero(cls, lbl, big, sub, vals, col) { return '<div class="uh ' + cls 
 function vHome() { try { return vHomeBaru(); } catch (e) { try { console.error('vHome', e); } catch (x) { } var m = '<div class="card empty"><p class="b">Beranda baru gagal dimuat</p><p class="sm mut">' + esc(e && e.message) + '</p></div>'; try { return m + vHomeLama(); } catch (e2) { return m; } } }
 function vHomeBaru() {
 var h = S.home; if (!h) return skel(3);
-var t0 = today(), L = S.lap, dm = L && L.dm && L.dm.ada ? L.dm.ringkas : null, P = h.performa, dmT = dmTunggu(), RR = S.rgData && S.rgData[rgHari()], RN = RR && RR.ada ? RR.nilai : null, RD = RR && RR.ada ? RR.delta || {} : {}, RL = (RG_PILIH.filter(function (x) { return x[0] === rgHari(); })[0] || [0, ''])[1] + ' terakhir';
+var t0 = today(), L = S.lap, dm = L && L.dm && L.dm.ada ? L.dm.ringkas : null, P = h.performa, dmT = dmTunggu();
 var bl = t0.slice(0, 7), mk = (S.kn || []).filter(function (k) { return kDate(k).slice(0, 7) === bl && k.status !== 'Batal'; }), cn = function (l) { return mk.filter(function (k) { return l.indexOf(ns(k.status)) >= 0; }).length; }, tay = cn(['Tayang']);
 var perlu = h.perlu || [], sub = (dmT ? 'Ada ' + nf(dmT) + ' DM menunggu' : 'Tidak ada DM menunggu') + (perlu.length ? ' dan ' + perlu.length + ' hal perlu dilakukan' : '') + '. ' + (perlu.length ? '' : 'Selebihnya berjalan lancar.');
-var hero = '<div class="uhr">' + uiHero('h1', 'DM perlu dibalas', nf(dmT), 'akun baru, produk, order, harga' + (dmInfo().aktif && dmInfo().galat ? ' · belum sinkron' : ''), [], '#fff') +
+var hero = '<div class="uhr">' + uiHero('h1', 'DM perlu dibalas', nf(dmT), 'akun baru, produk, order, harga', [], '#fff') +
 uiHero('h2', 'Dibalas', dm && dm.total ? Math.round(dm.dibalas / dm.total * 100) + '%' : '-', dm ? 'dari ' + nf(dm.total) + ' akun baru' : 'belum ada data', [], UIC[0]) +
 uiHero('h3', 'Waktu balas', dm && dm.median != null ? mnt(dm.median) : '-', 'median jam kerja', [], UIC[1]) +
-uiHero('h4', 'Pengikut bersih', RN ? (RN.bersih != null ? nfs(RN.bersih) : '-') : P && P.bersih != null ? nfs(P.bersih) : '-', RN ? RL : P ? 'minggu ini' : 'isi insight', RN ? RR.seri.map(function (x) { return x.b; }) : uiSeries('b'), UIC[2]) + '</div>';
-var strip = '<div class="ust">' + [['Tayangan', RN ? kc(RN.tayangan) : P ? kc(P.tayangan) : '-', RN ? uiDelta(RD.tayangan) : P ? uiDelta(P.delta) : ''], ['Dijangkau', RN ? kc(RN.jangkau) : P ? kc(P.jangkau) : '-', RN ? uiDelta(RD.jangkau) : ''], ['Interaksi', RN ? kc(RN.interaksi) : P ? kc(P.interaksi) : '-', RN ? uiDelta(RD.interaksi) : ''], ['Postingan tayang', String(tay), '<small>bulan ini</small>']].map(function (x) { return '<div><span>' + x[0] + '</span><b>' + x[1] + '</b>' + x[2] + '</div>'; }).join('') + '</div>';
+uiHero('h4', 'Pengikut bersih', P && P.bersih != null ? nfs(P.bersih) : '-', P ? 'minggu ini' : 'isi insight', uiSeries('b'), UIC[2]) + '</div>';
+var strip = '<div class="ust">' + [['Tayangan', P ? kc(P.tayangan) : '-', P ? uiDelta(P.delta) : ''], ['Dijangkau', P ? kc(P.jangkau) : '-', ''], ['Interaksi', P ? kc(P.interaksi) : '-', ''], ['Postingan tayang', String(tay), '<small>bulan ini</small>']].map(function (x) { return '<div><span>' + x[0] + '</span><b>' + x[1] + '</b>' + x[2] + '</div>'; }).join('') + '</div>';
 var PI = { dm: 'inbox', konten: 'cal', rencana: 'cal', laporan: 'chart', catatan: 'book', token: 'gear' };
 var pl = perlu.length ? perlu.map(function (p) { return rwb('data-a="perlu" data-k="' + esc(p.aksi) + '" data-m="' + esc(p.minggu || '') + '"', '<span class="ib">' + ic(PI[p.tipe] || 'check') + '</span>', '<span class="b">' + esc(p.teks) + '</span>', '<span style="display:flex;align-items:center;gap:6px">' + chip(prio(p)[0], prio(p)[1]) + '<span class="mut">' + ic('chev') + '</span></span>'); }).join('') : '<div class="empty">Semua beres untuk saat ini.</div>';
 var ags = (h.agenda || []).slice(0, 4).map(function (a) { var w = a.sisa < 0 ? chip('Berlangsung', 'wn') : a.sisa === 0 ? chip('Hari ini', 'wn') : chip('H-' + a.sisa); return rwb('data-a="agenda" data-id="' + esc(a.id) + '"', dtTile(a.mulai), t2(a.judul, [a.jenis, a.jam, a.lokasi].filter(String).join(' · ')), w); }).join('') || '<div class="empty">Belum ada agenda 14 hari ke depan.</div>';
@@ -1180,7 +1140,6 @@ if (!S.b || document.hidden || (navigator.connection && navigator.connection.sav
 if (!S.lap && !S.lapBusy) loadLap(true);
 if (!S.pg && !S.pgBusy) loadPg(true);
 if (!S.ih && !S.ihBusy) loadIh(true);
-if (!S.rgData || !S.rgData[rgHari()]) loadRg(rgHari());
 setTimeout(function () { if (!S.bul && !S.bulBusy) { S.bulBusy = true; call('apiLaporanBulan', S.bln || '').then(function (b) { if (!S.bul) { S.bul = b; S.bln = b.bulan; } }).catch(function () { }).then(function () { S.bulBusy = false; if (S.tab === 'laporan' && S.sub.laporan === 'bulanan' && !S.sheetBusy()) render(); }); } }, 2500);
 setTimeout(function () { if (!S.cat) call('apiCatatanList', '').then(function (l) { if (!S.cat) S.cat = l; if (S.tab === 'laporan' && S.sub.laporan === 'catatan' && !S.sheetBusy()) render(); }).catch(function () { }); }, 5000);
 setTimeout(function () { if (!S.rc && !S.rcBusy) { S.rcBusy = true; call('apiRencana', '').then(function (r) { if (!S.rc) { S.rc = r; S.rcMinggu = r.minggu; } }).catch(function () { }).then(function () { S.rcBusy = false; if (S.tab === 'konten' && S.sub.konten === 'rencana' && !S.sheetBusy()) render(); }); } }, 7500);
